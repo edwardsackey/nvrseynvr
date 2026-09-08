@@ -29,11 +29,10 @@ export function Footer() {
   return (
     <footer className="bg-black text-white">
       <MarqueeTape />
-      <div className="mx-auto grid w-full max-w-site gap-8 px-6 py-8 lg:grid-cols-[1.1fr_0.9fr_1.2fr] lg:gap-8 lg:px-16 lg:py-12">
+      <div className="mx-auto grid w-full max-w-site gap-8 px-6 py-8 lg:grid-cols-2 lg:gap-8 lg:px-16 lg:py-12 xl:grid-cols-[1fr_auto_1fr]">
         {/* Manifesto + newsletter */}
-        <div>
-          <p className="text-[22px] font-bold lg:text-[26px]">nvrsëynvr</p>
-          <p className="mt-3 max-w-md text-[14px] leading-relaxed lg:text-[16px]">
+        <div className="order-1 min-w-0">
+          <p className="max-w-md text-[14px] leading-relaxed lg:text-[16px]">
             We don&apos;t believe in limits, and we certainly don&apos;t believe
             in &quot;no.&quot; Our brand was built for the dreamers the doers,
             and the ones who view every obstacle as an invitation to innovate.
@@ -66,29 +65,30 @@ export function Footer() {
           </div>
         </div>
 
-        {/* Brand logo */}
-        <div className="flex flex-col items-center justify-between">
-          <div className="flex h-40 items-center justify-center lg:h-48">
-            <span className="font-blackletter text-[48px] leading-none text-white lg:text-[60px]">
-              nvrsëynvr
-            </span>
-          </div>
-          <p className="mt-6 text-[16px] text-white/80">
-            Copyright © 2026
-          </p>
-        </div>
-
-        {/* Links */}
-        <div className="flex flex-wrap items-start gap-x-10 gap-y-4 lg:justify-end lg:pt-8">
+        {/* Links, all on one aligned row */}
+        <div className="order-2 grid min-w-0 grid-cols-2 gap-x-6 gap-y-4 lg:flex lg:flex-nowrap lg:items-start lg:justify-end lg:gap-x-6 lg:pt-2 xl:order-3 xl:gap-x-7 xl:pt-8">
           {navItems.map((item) => (
             <button
               key={item.label}
-              className="flex items-center gap-2 text-[16px] hover:underline lg:text-[18px]"
+              className="flex items-center gap-1.5 whitespace-nowrap text-[16px] hover:underline xl:text-[17px]"
             >
               {item.label}
-              {item.dropdown && <ChevronDownIcon className="h-4 w-4" />}
+              {item.dropdown && <ChevronDownIcon className="h-4 w-4 shrink-0" />}
             </button>
           ))}
+        </div>
+
+        {/* Brand mark, centred, with the wordmark beneath it */}
+        <div className="order-3 flex flex-col items-center justify-between lg:col-span-2 xl:order-2 xl:col-span-1">
+          <div className="flex flex-col items-center xl:h-48 xl:justify-center">
+            <span className="font-blackletter text-[48px] leading-none text-white xl:text-[60px]">
+              nvrsëynvr
+            </span>
+            <p className="mt-5 text-[22px] font-bold xl:text-[26px]">nvrsëynvr</p>
+          </div>
+          <p className="mt-8 text-[16px] text-white/80 xl:mt-6">
+            Copyright © 2026
+          </p>
         </div>
       </div>
       <MarqueeTape />
