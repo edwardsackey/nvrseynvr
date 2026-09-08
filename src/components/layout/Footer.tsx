@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { FormEvent, useState } from "react";
 import { useToast } from "@/context/ToastContext";
 import { ChevronDownIcon, LongArrowIcon } from "@/components/ui/icons";
@@ -81,10 +82,16 @@ export function Footer() {
         {/* Brand mark, centred, with the wordmark beneath it */}
         <div className="order-3 flex flex-col items-center justify-between lg:col-span-2 xl:order-2 xl:col-span-1">
           <div className="flex flex-col items-center xl:h-48 xl:justify-center">
-            <span className="font-blackletter text-[48px] leading-none text-white xl:text-[60px]">
-              nvrsëynvr
-            </span>
-            <p className="mt-5 text-[22px] font-bold xl:text-[26px]">nvrsëynvr</p>
+            <div className="relative h-36 w-36 xl:h-44 xl:w-44">
+              <Image
+                src="/images/brand/ns-monogram-tight.png"
+                alt="nvrseynvr NS monogram"
+                fill
+                sizes="176px"
+                className="object-contain"
+              />
+            </div>
+            <p className="mt-4 text-[22px] font-bold xl:text-[26px]">nvrsëynvr</p>
           </div>
           <p className="mt-8 text-[16px] text-white/80 xl:mt-6">
             Copyright © 2026
