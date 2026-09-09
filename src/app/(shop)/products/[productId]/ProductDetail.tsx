@@ -7,6 +7,7 @@ import { formatPrice } from "@/lib/format";
 import { useCart } from "@/context/CartContext";
 import { useToast } from "@/context/ToastContext";
 import { ChevronDownIcon, MinusIcon, PlusIcon, StarIcon } from "@/components/ui/icons";
+import { Reveal } from "@/components/motion/Reveal";
 
 const ratingBars = [
   { label: "Excellent", color: "#3f9c35", width: "78%" },
@@ -36,7 +37,7 @@ function AccordionRow({
         <span className="text-[13px] font-bold tracking-widest">{title}</span>
         {open ? <MinusIcon className="h-4 w-4" /> : <PlusIcon className="h-4 w-4" />}
       </button>
-      {open && children && <div className="pt-4">{children}</div>}
+      {open && children && <div className="accordion-open pt-4">{children}</div>}
     </div>
   );
 }
@@ -77,8 +78,8 @@ export function ProductDetail({ product }: { product: Product }) {
   return (
     <div className="mx-auto grid w-full max-w-site gap-10 px-4 pb-16 pt-4 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16 lg:px-16">
       {/* Gallery */}
-      <div>
-        <div className="relative mx-auto aspect-[4/5] w-full max-w-[520px] overflow-hidden bg-card">
+      <Reveal variant="left">
+        <div className="group relative mx-auto aspect-[4/5] w-full max-w-[520px] overflow-hidden bg-card">
           <Image
             key={mainImage}
             src={mainImage}
@@ -86,7 +87,7 @@ export function ProductDetail({ product }: { product: Product }) {
             fill
             priority
             sizes="(max-width: 1024px) 100vw, 45vw"
-            className="object-cover"
+            className="img-swap object-cover transition-transform duration-[900ms] ease-out group-hover:scale-[1.06]"
           />
         </div>
 
@@ -98,7 +99,7 @@ export function ProductDetail({ product }: { product: Product }) {
                 key={src}
                 aria-label={`View image ${i + 1}`}
                 onClick={() => setImageIndex(i)}
-                className={`relative aspect-square w-16 overflow-hidden border ${i === imageIndex ? "border-black" : "border-black/15"}`}
+                className={`relative aspect-square w-16 overflow-hidden border transition-all duration-300 hover:-translate-y-0.5 ${i === imageIndex ? "border-black" : "border-black/15 hover:border-black/50"}`}
               >
                 <Image src={src} alt="" fill sizes="64px" className="object-cover" />
               </button>
@@ -122,10 +123,10 @@ export function ProductDetail({ product }: { product: Product }) {
             </button>
           ))}
         </div>
-      </div>
+      </Reveal>
 
       {/* Info panel */}
-      <div className="max-w-[520px]">
+      <Reveal variant="right" className="max-w-[520px]">
         <p className="font-blackletter text-[15px]">nvrsëynvr</p>
         <h1 className="mt-2 text-[22px] font-bold tracking-wide">{product.name}</h1>
         <p className="mt-1 text-[13px] text-black/50">{formatPrice(product.price)}</p>
@@ -183,7 +184,7 @@ export function ProductDetail({ product }: { product: Product }) {
         <button
           onClick={handleAddToCart}
           disabled={!product.inStock}
-          className="mt-5 w-full bg-black py-3 text-[13px] font-bold tracking-widest text-white transition-opacity hover:opacity-85 disabled:opacity-40"
+          className="btn-swipe btn-swipe-light mt-5 w-full border border-black bg-black py-3 text-[13px] font-bold tracking-widest text-white disabled:opacity-40"
         >
           {product.inStock ? "ADD TO CART" : "COMING SOON"}
         </button>
@@ -241,7 +242,7 @@ export function ProductDetail({ product }: { product: Product }) {
             </div>
           </AccordionRow>
         </div>
-      </div>
+      </Reveal>
     </div>
   );
 }

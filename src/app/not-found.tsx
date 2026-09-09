@@ -10,7 +10,7 @@ export default function NotFound() {
       </p>
       <Link
         href="/"
-        className="mt-10 inline-block bg-black px-10 py-3 text-[13px] font-bold tracking-widest text-white"
+        className="btn-swipe btn-swipe-light mt-10 inline-block border border-black bg-black px-10 py-3 text-[13px] font-bold tracking-widest text-white"
       >
         BACK TO STORE
       </Link>

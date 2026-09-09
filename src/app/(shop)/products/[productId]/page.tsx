@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { getProduct, getRelatedProducts, products } from "@/lib/data";
 import { ProductCard } from "@/components/product/ProductCard";
 import { ProductDetail } from "./ProductDetail";
+import { Reveal } from "@/components/motion/Reveal";
 
 interface Props {
   params: { productId: string };
@@ -56,12 +57,14 @@ export default function ProductPage({ params }: Props) {
 
       {related.length > 0 && (
         <section className="mx-auto w-full max-w-site px-4 pb-20 lg:px-8">
-          <h2 className="text-[18px] font-bold tracking-[0.08em]">SIMILAR COLLECTIONS</h2>
-          <div className="mt-8 grid grid-cols-1 gap-x-5 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
+          <Reveal>
+            <h2 className="text-[18px] font-bold tracking-[0.08em]">SIMILAR COLLECTIONS</h2>
+          </Reveal>
+          <Reveal group className="mt-8 grid grid-cols-1 gap-x-5 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
             {related.map((p) => (
               <ProductCard key={p.id} product={p} />
             ))}
-          </div>
+          </Reveal>
         </section>
       )}
     </>

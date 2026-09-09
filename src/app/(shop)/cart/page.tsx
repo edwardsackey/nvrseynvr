@@ -15,6 +15,7 @@ import {
   PlusIcon,
   TrashIcon,
 } from "@/components/ui/icons";
+import { Reveal } from "@/components/motion/Reveal";
 
 function PairedSidebar() {
   const { items } = useCart();
@@ -28,9 +29,9 @@ function PairedSidebar() {
         <br />
         PAIRED WITH
       </h2>
-      <div className="mt-6 space-y-7">
+      <Reveal group className="mt-6 space-y-7">
         {suggestions.map((p) => (
-          <Link key={p.id} href={`/products/${p.id}`} className="group block">
+          <Link key={p.id} href={`/products/${p.id}`} className="group card-lift block">
             <div className="relative aspect-square w-full overflow-hidden bg-white">
               <Image
                 src={p.images[0]}
@@ -45,7 +46,7 @@ function PairedSidebar() {
             <p className="mt-0.5 text-[11px] text-black/50">{formatPrice(p.price)}</p>
           </Link>
         ))}
-      </div>
+      </Reveal>
     </aside>
   );
 }
@@ -97,7 +98,7 @@ function DeliveryForm() {
       <div className="flex items-end">
         <button
           onClick={save}
-          className="h-11 w-full bg-black text-[13px] font-bold tracking-widest text-white transition-opacity hover:opacity-85"
+          className="btn-swipe btn-swipe-light h-11 w-full border border-black bg-black text-[13px] font-bold tracking-widest text-white"
         >
           {saved ? "SAVED ✓" : "SAVE DETAILS"}
         </button>
@@ -120,34 +121,38 @@ export default function CartPage() {
       <PairedSidebar />
 
       <div className="flex min-h-[70vh] flex-1 flex-col px-4 pt-2 lg:px-12">
-        <div className="flex items-center justify-between border-b border-black/40 pb-4">
+        <Reveal className="flex items-center justify-between border-b border-black/40 pb-4">
           <h1 className="text-[24px] font-bold tracking-wide sm:text-[28px]">
             SHOPPING CART ({hydrated ? itemCount : 0})
           </h1>
-          <button aria-label="Close cart" onClick={() => router.back()}>
+          <button
+            aria-label="Close cart"
+            onClick={() => router.back()}
+            className="transition-transform duration-300 hover:rotate-90"
+          >
             <CloseIcon className="h-7 w-7" />
           </button>
-        </div>
+        </Reveal>
 
         {!hydrated ? (
           <p className="py-16 text-[14px] text-black/50">Loading your cart…</p>
         ) : items.length === 0 ? (
-          <div className="flex flex-1 flex-col items-start justify-center gap-5 py-16">
+          <Reveal className="flex flex-1 flex-col items-start justify-center gap-5 py-16">
             <p className="text-[22px] font-bold">Your cart is empty.</p>
             <p className="max-w-sm text-[14px] text-black/60">
               Built for the ones who never gave up — the drop is waiting.
             </p>
             <Link
               href="/shop"
-              className="bg-black px-8 py-3 text-[13px] font-bold tracking-widest text-white"
+              className="btn-swipe btn-swipe-light border border-black bg-black px-8 py-3 text-[13px] font-bold tracking-widest text-white"
             >
               SHOP THE DROP
             </Link>
-          </div>
+          </Reveal>
         ) : (
           <>
             {/* Items */}
-            <ul>
+            <Reveal as="ul" group>
               {items.map((item) => {
                 const product = getProduct(item.productId);
                 if (!product) return null;
@@ -222,10 +227,10 @@ export default function CartPage() {
                   </li>
                 );
               })}
-            </ul>
+            </Reveal>
 
             {/* Accordions */}
-            <div className="mt-2">
+            <Reveal className="mt-2">
               <button
                 onClick={() => setOpenSection(openSection === "payment" ? null : "payment")}
                 aria-expanded={openSection === "payment"}
@@ -235,7 +240,7 @@ export default function CartPage() {
                 <PlusIcon className={`h-5 w-5 transition-transform ${openSection === "payment" ? "rotate-45" : ""}`} />
               </button>
               {openSection === "payment" && (
-                <div className="flex items-center gap-4 pb-5">
+                <div className="accordion-open flex items-center gap-4 pb-5">
                   <p className="text-[13px] text-black/70">
                     Card or Mobile Money — choose your method at checkout.
                   </p>
@@ -253,11 +258,15 @@ export default function CartPage() {
                 <span className="text-[20px] font-bold sm:text-[22px]">Delivery Details</span>
                 <PlusIcon className={`h-5 w-5 transition-transform ${openSection === "delivery" ? "rotate-45" : ""}`} />
               </button>
-              {openSection === "delivery" && <DeliveryForm />}
-            </div>
+              {openSection === "delivery" && (
+                <div className="accordion-open">
+                  <DeliveryForm />
+                </div>
+              )}
+            </Reveal>
 
             {/* Totals + checkout */}
-            <div className="mt-auto pt-10">
+            <Reveal className="mt-auto pt-10">
               <div className="mb-4 flex justify-end gap-10 text-[13px]">
                 <div className="space-y-1.5 text-right">
                   <p className="text-black/60">Sub-total</p>
@@ -279,12 +288,12 @@ export default function CartPage() {
               <div className="border-t border-black/40 pt-6">
                 <Link
                   href="/checkout/payment"
-                  className="block w-full bg-black py-4 text-center text-[14px] font-bold tracking-widest text-white transition-opacity hover:opacity-85"
+                  className="btn-swipe btn-swipe-light block w-full border border-black bg-black py-4 text-center text-[14px] font-bold tracking-widest text-white"
                 >
                   CHECKOUT - {formatPrice(total)}
                 </Link>
               </div>
-            </div>
+            </Reveal>
           </>
         )}
       </div>

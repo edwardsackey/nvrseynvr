@@ -10,6 +10,7 @@ import { getProduct } from "@/lib/data";
 import { DELIVERY_FEE, formatPrice, generateOrderNumber } from "@/lib/format";
 import { PaymentMethod } from "@/lib/types";
 import { ChevronDownIcon, CloseIcon } from "@/components/ui/icons";
+import { Reveal } from "@/components/motion/Reveal";
 
 const networks = ["MTN", "Telecel", "AirtelTigo"];
 
@@ -89,12 +90,16 @@ export default function PaymentPage() {
 
   return (
     <div className="mx-auto w-full max-w-[1367px] px-5 pb-16 lg:px-14">
-      <div className="flex items-start justify-between pt-6">
+      <Reveal className="flex items-start justify-between pt-6">
         <h1 className="text-[28px] font-bold sm:text-[35px]">Payment Information</h1>
-        <button aria-label="Close" onClick={() => router.push("/cart")}>
+        <button
+          aria-label="Close"
+          onClick={() => router.push("/cart")}
+          className="transition-transform duration-300 hover:rotate-90"
+        >
           <CloseIcon className="h-8 w-8" />
         </button>
-      </div>
+      </Reveal>
 
       <div className="mt-10 grid gap-12 lg:grid-cols-[1fr_540px]">
         <form onSubmit={onSubmit} noValidate>
@@ -249,7 +254,7 @@ export default function PaymentPage() {
           <button
             type="submit"
             disabled={processing}
-            className="mx-auto mt-16 block w-full max-w-[794px] bg-black py-4 text-[16px] tracking-widest text-white transition-opacity hover:opacity-85 disabled:opacity-50"
+            className="btn-swipe btn-swipe-light mx-auto mt-16 block w-full max-w-[794px] border border-black bg-black py-4 text-[16px] tracking-widest text-white disabled:opacity-50"
           >
             {processing ? "PROCESSING…" : "PROCEED"}
           </button>

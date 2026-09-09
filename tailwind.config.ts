@@ -39,6 +39,10 @@ const config: Config = {
           "0%": { transform: "rotate(0deg)" },
           "100%": { transform: "rotate(360deg)" },
         },
+        drift: {
+          "0%, 100%": { transform: "translateY(0)" },
+          "50%": { transform: "translateY(7px)" },
+        },
       },
       animation: {
         marquee: "marquee 40s linear infinite",
@@ -46,6 +50,7 @@ const config: Config = {
         "marquee-y": "marquee-y 60s linear infinite",
         "toast-in": "toast-in 0.3s ease forwards",
         "spin-slow": "spin-slow 18s linear infinite",
+        drift: "drift 2.2s ease-in-out infinite",
       },
     },
   },

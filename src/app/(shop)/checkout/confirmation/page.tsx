@@ -6,6 +6,7 @@ import { useCheckout } from "@/context/CheckoutContext";
 import { getProduct } from "@/lib/data";
 import { formatPrice } from "@/lib/format";
 import { CheckCircleIcon, TruckIcon } from "@/components/ui/icons";
+import { Reveal } from "@/components/motion/Reveal";
 
 function deliveryWindow(placedAt: string): string {
   const fmt: Intl.DateTimeFormatOptions = { weekday: "short", month: "short", day: "numeric" };
@@ -46,9 +47,9 @@ export default function ConfirmationPage() {
         Order Confirmation
       </h1>
 
-      <div className="mt-16 flex justify-center">
+      <Reveal variant="scale" className="mt-16 flex justify-center">
         <CheckCircleIcon className="h-[70px] w-[70px]" />
-      </div>
+      </Reveal>
       <h2 className="mt-6 text-center text-[30px] font-bold sm:text-[35px]">Order Complete</h2>
       <p className="mt-2 text-center text-[22px] sm:text-[24px]">
         Order number <span className="font-bold">{lastOrder.orderNumber}</span>
@@ -63,12 +64,12 @@ export default function ConfirmationPage() {
       </p>
 
       {/* Delivery estimate banner */}
-      <div className="mx-auto mt-14 flex max-w-[1023px] items-center justify-center gap-8 bg-[rgba(217,217,217,0.4)] px-6 py-10">
+      <Reveal className="mx-auto mt-14 flex max-w-[1023px] items-center justify-center gap-8 bg-[rgba(217,217,217,0.4)] px-6 py-10">
         <TruckIcon className="h-[50px] w-[50px] shrink-0" />
         <p className="text-[18px] sm:text-[24px]">
           Expect delivery between {deliveryWindow(lastOrder.placedAt)}
         </p>
-      </div>
+      </Reveal>
 
       {/* Items + totals */}
       <div className="mx-auto mt-16 max-w-[760px]">
@@ -124,14 +125,14 @@ export default function ConfirmationPage() {
         <p className="mt-12 text-[28px] font-bold sm:text-[35px]">Order Summary</p>
       </div>
 
-      <div className="mt-16 flex justify-center">
+      <Reveal className="mt-16 flex justify-center">
         <Link
           href="/shop"
-          className="block w-full max-w-[794px] bg-black py-4 text-center text-[18px] text-white transition-opacity hover:opacity-85"
+          className="btn-swipe btn-swipe-light block w-full max-w-[794px] border border-black bg-black py-4 text-center text-[18px] text-white"
         >
           Continue Shopping
         </Link>
-      </div>
+      </Reveal>
     </div>
   );
 }

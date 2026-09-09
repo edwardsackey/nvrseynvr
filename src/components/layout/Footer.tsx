@@ -71,7 +71,7 @@ export function Footer() {
           {navItems.map((item) => (
             <button
               key={item.label}
-              className="flex items-center gap-1.5 whitespace-nowrap text-[16px] hover:underline xl:text-[17px]"
+              className="link-wipe flex items-center gap-1.5 whitespace-nowrap text-[16px] xl:text-[17px]"
             >
               {item.label}
               {item.dropdown && <ChevronDownIcon className="h-4 w-4 shrink-0" />}

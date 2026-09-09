@@ -30,8 +30,8 @@ export function ProductCard({
   }
 
   return (
-    <Link href={`/products/${product.id}`} className="group block">
-      <div className="relative flex aspect-[3/4] items-center justify-center bg-card">
+    <Link href={`/products/${product.id}`} className="group card-lift block">
+      <div className="relative flex aspect-[3/4] items-center justify-center overflow-hidden bg-card">
         {product.badge && (
           <span className="absolute left-4 top-4 z-10 rounded-sm border border-black/20 bg-white px-4 py-1.5 text-[11px] font-bold tracking-widest">
             {product.badge === "new" ? "NEW" : "COMING SOON"}
@@ -40,7 +40,7 @@ export function ProductCard({
         <button
           onClick={onHeart}
           aria-label={wishlisted ? "Remove from wishlist" : "Add to wishlist"}
-          className={`absolute right-4 top-4 z-10 transition-colors ${wishlisted ? "text-black" : "text-black/60 hover:text-black"}`}
+          className={`absolute right-4 top-4 z-10 transition-all duration-300 hover:scale-110 active:scale-95 ${wishlisted ? "scale-105 text-black" : "text-black/60 hover:text-black"}`}
         >
           <HeartIcon className="h-6 w-6" filled={wishlisted} />
         </button>
@@ -51,7 +51,7 @@ export function ProductCard({
             fill
             priority={priority}
             sizes="(max-width: 640px) 90vw, (max-width: 1024px) 45vw, 24vw"
-            className="object-cover transition-transform duration-300 ease-out group-hover:scale-[1.04]"
+            className="object-cover transition-transform duration-[600ms] ease-out group-hover:scale-[1.07]"
           />
         </div>
       </div>

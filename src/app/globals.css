@@ -27,3 +27,209 @@ input[type="number"] {
   -moz-appearance: textfield;
   appearance: textfield;
 }
+
+/* ───────────────────────────────────────────────
+   Motion system
+   Everything below is wrapped in a reduced-motion
+   guard, so a visitor who asks for less motion gets
+   the fully static, fully visible page.
+   ─────────────────────────────────────────────── */
+@media (prefers-reduced-motion: no-preference) {
+  /* Scroll reveal: single element */
+  .reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition:
+      opacity 0.8s cubic-bezier(0.22, 0.61, 0.36, 1),
+      transform 0.8s cubic-bezier(0.22, 0.61, 0.36, 1);
+    will-change: opacity, transform;
+  }
+  .reveal-fade {
+    transform: none;
+  }
+  .reveal-left {
+    transform: translateX(-36px);
+  }
+  .reveal-right {
+    transform: translateX(36px);
+  }
+  .reveal-scale {
+    transform: scale(0.965);
+  }
+  .reveal.is-visible {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* Scroll reveal: container that staggers its own children */
+  .reveal-group > * {
+    opacity: 0;
+    transform: translateY(24px);
+    transition:
+      opacity 0.7s cubic-bezier(0.22, 0.61, 0.36, 1),
+      transform 0.7s cubic-bezier(0.22, 0.61, 0.36, 1);
+    will-change: opacity, transform;
+  }
+  .reveal-group.is-visible > * {
+    opacity: 1;
+    transform: none;
+  }
+  .reveal-group.is-visible > *:nth-child(2) {
+    transition-delay: 0.09s;
+  }
+  .reveal-group.is-visible > *:nth-child(3) {
+    transition-delay: 0.18s;
+  }
+  .reveal-group.is-visible > *:nth-child(4) {
+    transition-delay: 0.27s;
+  }
+  .reveal-group.is-visible > *:nth-child(5) {
+    transition-delay: 0.36s;
+  }
+  .reveal-group.is-visible > *:nth-child(6) {
+    transition-delay: 0.45s;
+  }
+  .reveal-group.is-visible > *:nth-child(7) {
+    transition-delay: 0.54s;
+  }
+  .reveal-group.is-visible > *:nth-child(8) {
+    transition-delay: 0.63s;
+  }
+
+  /* Route transition: content settles in on every navigation */
+  .page-enter {
+    animation: page-enter 0.55s cubic-bezier(0.22, 0.61, 0.36, 1) both;
+  }
+  @keyframes page-enter {
+    from {
+      opacity: 0;
+      transform: translateY(12px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  /* Product gallery: the new frame fades over the old one */
+  .img-swap {
+    animation: img-swap 0.5s cubic-bezier(0.22, 0.61, 0.36, 1) both;
+  }
+  @keyframes img-swap {
+    from {
+      opacity: 0;
+      transform: scale(1.02);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  /* Accordions open with a short slide rather than a jump */
+  .accordion-open {
+    animation: accordion-open 0.35s cubic-bezier(0.22, 0.61, 0.36, 1) both;
+  }
+  @keyframes accordion-open {
+    from {
+      opacity: 0;
+      transform: translateY(-6px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  /* Slow drift on full-bleed editorial photography */
+  .ken-burns {
+    animation: ken-burns 18s ease-in-out infinite alternate;
+  }
+  @keyframes ken-burns {
+    from {
+      transform: scale(1);
+    }
+    to {
+      transform: scale(1.07);
+    }
+  }
+}
+
+/* ── Buttons: the fill swipes in from the left on hover ──
+   The pseudo element sits at z-index -1 inside an isolated
+   stacking context, so it paints over the button's own
+   background but under its label, with no markup changes. */
+.btn-swipe {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  transition: color 0.35s ease;
+}
+.btn-swipe::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  transform: translateX(-101%);
+  transition: transform 0.45s cubic-bezier(0.65, 0, 0.35, 1);
+}
+.btn-swipe:hover::before,
+.btn-swipe:focus-visible::before {
+  transform: translateX(0);
+}
+/* Dark button: white swipes in, label flips to black */
+.btn-swipe-light::before {
+  background: #ffffff;
+}
+.btn-swipe-light:hover,
+.btn-swipe-light:focus-visible {
+  color: #000000;
+}
+/* Light or outlined button: black swipes in, label flips to white */
+.btn-swipe-dark::before {
+  background: #000000;
+}
+.btn-swipe-dark:hover,
+.btn-swipe-dark:focus-visible {
+  color: #ffffff;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .btn-swipe::before {
+    transition: none;
+  }
+}
+
+/* ── Text links: underline wipes across on hover ── */
+.link-wipe {
+  position: relative;
+}
+.link-wipe::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -3px;
+  height: 1px;
+  width: 100%;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.35s cubic-bezier(0.65, 0, 0.35, 1);
+}
+.link-wipe:hover::after,
+.link-wipe:focus-visible::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+/* ── Cards lift slightly as you point at them ── */
+.card-lift {
+  transition:
+    transform 0.4s cubic-bezier(0.22, 0.61, 0.36, 1),
+    box-shadow 0.4s ease;
+}
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .card-lift:hover {
+    transform: translateY(-6px);
+  }
+}

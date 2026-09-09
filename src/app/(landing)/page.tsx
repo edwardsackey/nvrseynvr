@@ -11,6 +11,8 @@ import {
   UserIcon,
 } from "@/components/ui/icons";
 import { useCart } from "@/context/CartContext";
+import { Reveal } from "@/components/motion/Reveal";
+import { LANDING_ANCHOR_ID, VideoHero } from "@/components/landing/VideoHero";
 
 const heroSlides = [
   "/images/lifestyle/survivors-group.webp",
@@ -107,8 +109,14 @@ export default function LandingPage() {
 
   return (
     <>
+      {/* ── The film: first thing a visitor meets ── */}
+      <VideoHero />
+
       {/* ── Hero with overlay nav ── */}
-      <section className="relative min-h-[92vh] overflow-hidden bg-black lg:min-h-screen">
+      <section
+        id={LANDING_ANCHOR_ID}
+        className="relative min-h-[92vh] overflow-hidden bg-black lg:min-h-screen"
+      >
         {heroSlides.map((src, i) => (
           <Image
             key={src}
@@ -117,7 +125,7 @@ export default function LandingPage() {
             fill
             priority={i === 0}
             sizes="100vw"
-            className={`object-cover grayscale transition-opacity duration-1000 ${i === slide ? "opacity-100" : "opacity-0"}`}
+            className={`object-cover grayscale transition-opacity duration-1000 ${i === slide ? "ken-burns opacity-100" : "opacity-0"}`}
           />
         ))}
 
@@ -155,7 +163,10 @@ export default function LandingPage() {
         </div>
 
         {/* Message card */}
-        <div className="absolute bottom-[8%] left-0 z-10 w-[76%] max-w-[420px] bg-[#efe9dd] p-4 sm:left-6 sm:w-[88%] sm:p-8 lg:left-0">
+        <Reveal
+          variant="left"
+          className="absolute bottom-[8%] left-0 z-10 w-[76%] max-w-[420px] bg-[#efe9dd] p-4 sm:left-6 sm:w-[88%] sm:p-8 lg:left-0"
+        >
           <h1 className="text-[20px] font-bold leading-[1.15] sm:text-[32px]">
             Built for the ones
             <br />
@@ -167,12 +178,12 @@ export default function LandingPage() {
           </p>
           <Link
             href="/shop"
-            className="mt-3 inline-flex items-center gap-2 border border-black px-3 py-1.5 text-[9px] font-bold tracking-widest transition-colors hover:bg-black hover:text-white sm:mt-5 sm:gap-3 sm:px-4 sm:py-2 sm:text-[11px]"
+            className="btn-swipe btn-swipe-dark mt-3 inline-flex items-center gap-2 border border-black px-3 py-1.5 text-[9px] font-bold tracking-widest sm:mt-5 sm:gap-3 sm:px-4 sm:py-2 sm:text-[11px]"
           >
             SHOP THE DROP
             <LongArrowIcon className="h-2.5 w-6 sm:h-3 sm:w-8" />
           </Link>
-        </div>
+        </Reveal>
 
         {/* Slide dashes */}
         <div className="absolute bottom-5 left-1/2 z-10 flex -translate-x-1/2 gap-2">
@@ -190,14 +201,19 @@ export default function LandingPage() {
       {/* ── ALL / EXPLORE product cards ── */}
       <section className="bg-[#efefef] px-4 pb-12 pt-8 sm:pb-20 sm:pt-10 lg:px-8">
         <div className="mx-auto w-full max-w-site">
-          <p className="text-[13px] font-bold tracking-wide sm:text-[14px]">ALL</p>
-          <p className="text-[14px] tracking-[0.15em] sm:text-[15px]">EXPLORE</p>
-          <div className="-mx-4 mt-5 flex snap-x snap-mandatory gap-3 overflow-x-auto px-4 pb-2 sm:mx-0 sm:mt-8 sm:grid sm:grid-cols-2 sm:gap-6 sm:overflow-visible sm:px-0 sm:pb-0 lg:grid-cols-4">
+          <Reveal>
+            <p className="text-[13px] font-bold tracking-wide sm:text-[14px]">ALL</p>
+            <p className="text-[14px] tracking-[0.15em] sm:text-[15px]">EXPLORE</p>
+          </Reveal>
+          <Reveal
+            group
+            className="-mx-4 mt-5 flex snap-x snap-mandatory gap-3 overflow-x-auto px-4 pb-2 sm:mx-0 sm:mt-8 sm:grid sm:grid-cols-2 sm:gap-6 sm:overflow-visible sm:px-0 sm:pb-0 lg:grid-cols-4"
+          >
             {exploreCards.map((card) => (
               <Link
                 key={card.name}
                 href={card.href}
-                className="group block w-[158px] shrink-0 snap-start sm:w-auto sm:shrink"
+                className="group card-lift block w-[158px] shrink-0 snap-start sm:w-auto sm:shrink"
               >
                 <div className="bg-[#e3e3e3] px-3 pb-5 pt-2 sm:px-6 sm:pb-10 sm:pt-4">
                   <span className="flex items-center justify-end gap-1.5 text-[9px] tracking-widest sm:gap-2 sm:text-[11px]">
@@ -217,20 +233,25 @@ export default function LandingPage() {
                 <p className="mt-0.5 text-[9px] text-black/50 sm:mt-1 sm:text-[11px]">{formatPrice(card.price)}</p>
               </Link>
             ))}
-          </div>
+          </Reveal>
         </div>
       </section>
 
       {/* ── UNISEX / NEW COLLECTION category chips ── */}
       <section className="bg-white px-4 py-16 lg:px-8">
         <div className="mx-auto w-full max-w-4xl">
-          <p className="text-center text-[11px] tracking-[0.2em] text-black/70">UNISEX</p>
-          <div className="mt-3 flex justify-center">
-            <span className="bg-black px-8 py-2 text-[11px] font-bold tracking-widest text-white">
-              NEW COLLECTION
-            </span>
-          </div>
-          <div className="-mx-4 mt-6 flex snap-x gap-2 overflow-x-auto px-4 pb-2 sm:mx-0 sm:mt-8 sm:grid sm:grid-cols-4 sm:gap-3 sm:overflow-visible sm:px-0 sm:pb-0">
+          <Reveal>
+            <p className="text-center text-[11px] tracking-[0.2em] text-black/70">UNISEX</p>
+            <div className="mt-3 flex justify-center">
+              <span className="bg-black px-8 py-2 text-[11px] font-bold tracking-widest text-white">
+                NEW COLLECTION
+              </span>
+            </div>
+          </Reveal>
+          <Reveal
+            group
+            className="-mx-4 mt-6 flex snap-x gap-2 overflow-x-auto px-4 pb-2 sm:mx-0 sm:mt-8 sm:grid sm:grid-cols-4 sm:gap-3 sm:overflow-visible sm:px-0 sm:pb-0"
+          >
             {categoryChips.map((chip) => (
               <Link
                 key={chip.label}
@@ -243,20 +264,25 @@ export default function LandingPage() {
                 <span className="whitespace-nowrap text-[10px] font-bold tracking-wide sm:text-[12px]">{chip.label}</span>
               </Link>
             ))}
-          </div>
-          <div className="mt-6 flex justify-end">
+          </Reveal>
+          <Reveal className="mt-6 flex justify-end">
             <Link
               href="/shop"
-              className="inline-flex items-center gap-2 text-[11px] font-bold tracking-widest underline-offset-4 hover:underline"
+              className="link-wipe inline-flex items-center gap-2 text-[11px] font-bold tracking-widest"
             >
               SHOP NOW <LongArrowIcon className="h-3 w-8" />
             </Link>
-          </div>
+          </Reveal>
         </div>
       </section>
 
       {/* ── Joey B collaboration ── */}
-      <section id="joey-b" className="relative grid grid-cols-[1fr_4fr_1fr] gap-1 bg-white">
+      <Reveal
+        as="section"
+        group
+        id="joey-b"
+        className="relative grid grid-cols-[1fr_4fr_1fr] gap-1 bg-white"
+      >
         <div className="relative min-h-[220px] sm:min-h-[320px] lg:min-h-[500px]">
           <Image
             src="/images/collab/joeyb-portrait-2.webp"
@@ -285,7 +311,7 @@ export default function LandingPage() {
           />
           <Link
             href="/shop"
-            className="absolute right-1 top-1/2 -translate-y-1/2 bg-white px-2 py-1 text-[8px] font-bold tracking-widest sm:right-2 sm:px-3 sm:py-1.5 sm:text-[10px] lg:right-4"
+            className="btn-swipe btn-swipe-dark absolute right-1 top-1/2 -translate-y-1/2 bg-white px-2 py-1 text-[8px] font-bold tracking-widest sm:right-2 sm:px-3 sm:py-1.5 sm:text-[10px] lg:right-4"
           >
             EXPLORE NOW
           </Link>
@@ -300,35 +326,37 @@ export default function LandingPage() {
             COLLABORATION
           </p>
         </div>
-      </section>
+      </Reveal>
 
       {/* ── ACCRA-GHANA band ── */}
-      <LocationBand />
+      <Reveal variant="fade">
+        <LocationBand />
+      </Reveal>
 
       {/* ── Join our community ── */}
       <section className="bg-[#f5f5f5] px-4 py-8 sm:py-14 lg:px-10">
         <div className="mx-auto w-full max-w-site">
-          <div className="flex items-start justify-between">
+          <Reveal className="flex items-start justify-between">
             <h2 className="text-left text-[15px] leading-tight sm:text-[24px]">
               <span className="font-bold">JOIN</span>
               <br />
               <span className="tracking-[0.06em]">OUR COMMUNITY</span>
             </h2>
             <span className="text-right font-blackletter text-[15px] sm:text-[24px]">nvrsëynvr</span>
-          </div>
-          <div className="mt-5 grid grid-cols-3 gap-2 sm:mt-8 sm:gap-6">
+          </Reveal>
+          <Reveal group className="mt-5 grid grid-cols-3 gap-2 sm:mt-8 sm:gap-6">
             {communityPhotos.map((photo) => (
-              <div key={photo.src} className="relative aspect-[645/794] overflow-hidden">
+              <div key={photo.src} className="group relative aspect-[645/794] overflow-hidden">
                 <Image
                   src={photo.src}
                   alt={photo.alt}
                   fill
                   sizes="33vw"
-                  className="object-cover"
+                  className="object-cover transition-transform duration-[900ms] ease-out group-hover:scale-105"
                 />
               </div>
             ))}
-          </div>
+          </Reveal>
         </div>
       </section>
 
@@ -336,25 +364,28 @@ export default function LandingPage() {
       <section className="relative min-h-[52vh] overflow-hidden sm:min-h-[80vh] lg:min-h-screen">
         <Image
           src="/images/lifestyle/freedom-editorial.webp"
-          alt="Project-1957-Freedom editorial — Accra"
+          alt="Project-1957-Freedom editorial in Accra"
           fill
           sizes="100vw"
-          className="object-cover grayscale"
+          className="ken-burns object-cover grayscale"
         />
         <span className="absolute left-3 top-3 bg-white px-3 py-1 text-[9px] font-bold tracking-widest sm:left-6 sm:top-6 sm:px-5 sm:py-1.5 sm:text-[11px]">
           NEW
         </span>
-        <div className="absolute bottom-10 left-3 text-left text-white sm:bottom-14 sm:left-6 lg:left-10">
+        <Reveal
+          variant="left"
+          className="absolute bottom-10 left-3 text-left text-white sm:bottom-14 sm:left-6 lg:left-10"
+        >
           <p className="text-[13px] tracking-[0.06em] [text-shadow:0_1px_10px_rgba(0,0,0,0.7)] sm:text-[20px] lg:text-[24px]">
             PROJECT-1957-FREEDOM
           </p>
           <p className="mt-0.5 text-[11px] tracking-[0.06em] [text-shadow:0_1px_10px_rgba(0,0,0,0.7)] sm:mt-1 sm:text-[18px] lg:text-[22px]">
             NEW COLLECTION
           </p>
-        </div>
+        </Reveal>
         <Link
           href="/collections/project-1957-freedom"
-          className="absolute bottom-10 right-3 bg-white px-3 py-1 text-[9px] font-bold tracking-widest sm:bottom-14 sm:right-6 sm:px-5 sm:py-1.5 sm:text-[11px] lg:right-10"
+          className="btn-swipe btn-swipe-dark absolute bottom-10 right-3 bg-white px-3 py-1 text-[9px] font-bold tracking-widest sm:bottom-14 sm:right-6 sm:px-5 sm:py-1.5 sm:text-[11px] lg:right-10"
         >
           EXPLORE
         </Link>

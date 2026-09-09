@@ -55,14 +55,14 @@ export function Header() {
         <nav aria-label="Main" className="hidden items-center gap-8 lg:flex">
           <Link
             href="/shop"
-            className={`text-[15px] underline-offset-4 hover:underline ${pathname === "/shop" ? "underline" : ""}`}
+            className={`link-wipe text-[15px] ${pathname === "/shop" ? "underline underline-offset-4" : ""}`}
           >
             Shop
           </Link>
           <button
             onClick={() => setMenuOpen((v) => !v)}
             aria-expanded={menuOpen}
-            className={`text-[15px] underline-offset-4 hover:underline ${menuOpen ? "underline" : ""}`}
+            className={`link-wipe text-[15px] ${menuOpen ? "underline underline-offset-4" : ""}`}
           >
             Collections
           </button>
@@ -180,7 +180,7 @@ export function Header() {
                 <p className="text-[18px] font-bold text-white [text-shadow:0_1px_8px_rgba(0,0,0,0.7)]">
                   JOEY B X INFINITY BENNIE
                 </p>
-                <span className="mt-2 inline-block bg-white px-4 py-1.5 text-[11px] tracking-wide">
+                <span className="btn-swipe btn-swipe-dark mt-2 inline-block bg-white px-4 py-1.5 text-[11px] tracking-wide text-black">
                   EXPLORE NOW
                 </span>
               </div>

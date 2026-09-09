@@ -38,6 +38,11 @@ export default function RootLayout({
       <body
         className={`${inria.variable} ${pirata.variable} bg-white font-serif text-black antialiased`}
       >
+        {/* Without scripting the reveal animations never run, so make sure the
+            content is simply visible rather than stuck at opacity zero. */}
+        <noscript>
+          <style>{`.reveal,.reveal-group>*{opacity:1!important;transform:none!important}`}</style>
+        </noscript>
         <Providers>
           {children}
           <ToastViewport />

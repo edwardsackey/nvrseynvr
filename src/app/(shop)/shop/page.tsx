@@ -6,6 +6,7 @@ import { Suspense } from "react";
 import { products } from "@/lib/data";
 import { ProductCard } from "@/components/product/ProductCard";
 import { ChevronLeftIcon, ChevronRightIcon } from "@/components/ui/icons";
+import { Reveal } from "@/components/motion/Reveal";
 
 const PAGE_SIZE = 12;
 
@@ -30,7 +31,7 @@ function ShopContent() {
 
   return (
     <div className="mx-auto w-full max-w-site px-4 pb-16 lg:px-8">
-      <div className="flex flex-wrap items-center justify-between gap-4 pt-2">
+      <Reveal className="flex flex-wrap items-center justify-between gap-4 pt-2">
         <p className="flex items-baseline gap-3">
           <span className="text-[20px] font-bold tracking-wide">
             {query ? `RESULTS FOR “${query.toUpperCase()}”` : "SHOP ALL"}
@@ -39,26 +40,30 @@ function ShopContent() {
           <span className="text-[15px]">{filtered.length} Items</span>
         </p>
         <div className="flex gap-4">
-          <button className="flex items-center gap-3 border border-black/40 px-6 py-2.5 text-[12px] font-bold tracking-widest">
+          <button className="btn-swipe btn-swipe-dark flex items-center gap-3 border border-black/40 px-6 py-2.5 text-[12px] font-bold tracking-widest">
             CHANGE VIEW
-            <span className="inline-block h-2 w-2 rounded-full bg-black" />
+            <span className="inline-block h-2 w-2 rounded-full bg-current" />
           </button>
-          <button className="bg-black px-6 py-2.5 text-[12px] font-bold tracking-widest text-white">
+          <button className="btn-swipe btn-swipe-light bg-black px-6 py-2.5 text-[12px] font-bold tracking-widest text-white">
             FILTER OR SORT
           </button>
         </div>
-      </div>
+      </Reveal>
 
       {visible.length === 0 ? (
         <p className="py-24 text-center text-[15px] text-black/60">
           Nothing matches that search — try “tee”, “cap”, or “beanie”.
         </p>
       ) : (
-        <div className="mt-8 grid grid-cols-1 gap-x-5 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
+        <Reveal
+          group
+          key={`${query}-${current}`}
+          className="mt-8 grid grid-cols-1 gap-x-5 gap-y-10 sm:grid-cols-2 lg:grid-cols-4"
+        >
           {visible.map((product, i) => (
             <ProductCard key={product.id} product={product} priority={i < 4} />
           ))}
-        </div>
+        </Reveal>
       )}
 
       {/* Pagination */}
