@@ -26,20 +26,9 @@ export function VideoHero() {
 
   const [status, setStatus] = useState<Status>("loading");
   const [muted, setMuted] = useState(true);
-  const [showBackdrop, setShowBackdrop] = useState(false);
   const [progress, setProgress] = useState(0);
 
   const finished = status === "ended" || status === "blocked";
-
-  // The blurred fill behind the portrait video is desktop only, and is mounted
-  // rather than merely hidden so phones never download a second stream.
-  useEffect(() => {
-    const mq = window.matchMedia("(min-width: 1024px)");
-    const apply = () => setShowBackdrop(mq.matches);
-    apply();
-    mq.addEventListener("change", apply);
-    return () => mq.removeEventListener("change", apply);
-  }, []);
 
   // Try to autoplay. Browsers only allow this while muted, and some block it
   // outright, so a rejected play() drops straight to the finished state where
@@ -117,20 +106,7 @@ export function VideoHero() {
       aria-label="nvrsëynvr film"
       className="relative h-[100svh] min-h-[520px] w-full overflow-hidden bg-black text-white"
     >
-      {/* Ambient fill so the portrait film never sits on empty letterboxing */}
-      {showBackdrop && (
-        <video
-          {...videoProps}
-          poster={undefined}
-          aria-hidden="true"
-          tabIndex={-1}
-          muted
-          autoPlay
-          loop
-          className="pointer-events-none absolute inset-0 h-full w-full scale-110 object-cover opacity-25 blur-2xl"
-        />
-      )}
-
+      {/* Full bleed: the film always fills the screen, cropping as needed */}
       <video
         {...videoProps}
         ref={videoRef}
@@ -144,9 +120,16 @@ export function VideoHero() {
           const v = e.currentTarget;
           if (v.duration) setProgress((v.currentTime / v.duration) * 100);
         }}
-        className={`absolute inset-0 h-full w-full object-cover transition-all duration-700 lg:object-contain ${
-          finished ? "scale-[1.02] brightness-[0.45]" : ""
+        className={`film-grade absolute inset-0 h-full w-full object-cover object-[50%_38%] transition-all duration-700 ${
+          finished ? "film-grade-ended scale-[1.02]" : ""
         }`}
+      />
+
+      {/* Grit: moving film grain, then a vignette to weight the corners */}
+      <div aria-hidden="true" className="film-grain pointer-events-none absolute inset-0 overflow-hidden" />
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_38%,rgba(0,0,0,0.55)_100%)]"
       />
 
       {/* Legibility wash behind the overlay controls */}
