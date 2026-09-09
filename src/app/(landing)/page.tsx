@@ -14,10 +14,24 @@ import { useCart } from "@/context/CartContext";
 import { Reveal } from "@/components/motion/Reveal";
 import { LANDING_ANCHOR_ID, VideoHero } from "@/components/landing/VideoHero";
 
+// Each frame carries its own crop: the wide group shot needs the window
+// pulled up so the back row keeps its headroom, the rest sit centred.
 const heroSlides = [
-  "/images/lifestyle/survivors-group.webp",
-  "/images/lifestyle/group-studio.webp",
-  "/images/lifestyle/three-girls-tees.webp",
+  {
+    src: "/images/lifestyle/studio-group-front.jpg",
+    position: "object-[50%_28%]",
+    alt: "The nvrsëynvr crew in the nvr sëy nvr tees and beanies",
+  },
+  {
+    src: "/images/lifestyle/studio-survivors-backs.jpg",
+    position: "object-center",
+    alt: "The Survivors lion back print across the crew",
+  },
+  {
+    src: "/images/lifestyle/studio-four-front.jpg",
+    position: "object-center",
+    alt: "Four of the crew in the Survivors and nvr sëy nvr tees",
+  },
 ];
 
 const exploreCards = [
@@ -117,17 +131,26 @@ export default function LandingPage() {
         id={LANDING_ANCHOR_ID}
         className="relative min-h-[92vh] overflow-hidden bg-black lg:min-h-screen"
       >
-        {heroSlides.map((src, i) => (
+        {heroSlides.map((frame, i) => (
           <Image
-            key={src}
-            src={src}
-            alt="nvrsëynvr community wearing the Survivors drop"
+            key={frame.src}
+            src={frame.src}
+            alt={frame.alt}
             fill
             priority={i === 0}
             sizes="100vw"
-            className={`object-cover grayscale transition-opacity duration-1000 ${i === slide ? "ken-burns opacity-100" : "opacity-0"}`}
+            className={`object-cover ${frame.position} grayscale transition-opacity duration-1000 ${
+              i === slide ? "ken-burns opacity-100" : "opacity-0"
+            }`}
           />
         ))}
+
+        {/* Scrim: these studio frames are shot on a pale backdrop, so the white
+            nav and dashes need shading at the top and bottom edges to read. */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/65 via-black/15 to-black/60"
+        />
 
         {/* Overlay header */}
         <div className="absolute inset-x-0 top-0 z-20 flex items-center justify-between px-6 py-5 text-white lg:px-10">
