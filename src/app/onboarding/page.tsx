@@ -20,7 +20,7 @@ export default function OnboardingPage() {
       return;
     }
     showToast("Welcome to nvrsëynvr.");
-    router.push("/");
+    router.push("/home");
   }
 
   return (
@@ -28,7 +28,7 @@ export default function OnboardingPage() {
       <header className="flex items-center justify-between py-6">
         <span className="font-blackletter text-[20px]">nvrsëynvr</span>
         <Link
-          href="/"
+          href="/home"
           className="link-wipe flex items-center gap-3 text-[18px]"
         >
           Skip for now

@@ -12,7 +12,6 @@ import {
 } from "@/components/ui/icons";
 import { useCart } from "@/context/CartContext";
 import { Reveal } from "@/components/motion/Reveal";
-import { LANDING_ANCHOR_ID, VideoHero } from "@/components/landing/VideoHero";
 
 // Each frame carries its own crop: the wide group shot needs the window
 // pulled up so the back row keeps its headroom, the rest sit centred.
@@ -123,14 +122,8 @@ export default function LandingPage() {
 
   return (
     <>
-      {/* ── The film: first thing a visitor meets ── */}
-      <VideoHero />
-
       {/* ── Hero with overlay nav ── */}
-      <section
-        id={LANDING_ANCHOR_ID}
-        className="relative min-h-[92vh] overflow-hidden bg-black lg:min-h-screen"
-      >
+      <section className="relative min-h-[92vh] overflow-hidden bg-black lg:min-h-screen">
         {heroSlides.map((frame, i) => (
           <Image
             key={frame.src}
@@ -155,7 +148,7 @@ export default function LandingPage() {
         {/* Overlay header */}
         <div className="absolute inset-x-0 top-0 z-20 flex items-center justify-between px-6 py-5 text-white lg:px-10">
           <div className="flex items-center gap-12">
-            <Link href="/" className="font-blackletter text-[18px] leading-none">
+            <Link href="/home" className="font-blackletter text-[18px] leading-none">
               nvrsëynvr
             </Link>
             <nav aria-label="Main" className="hidden items-center gap-8 sm:flex">

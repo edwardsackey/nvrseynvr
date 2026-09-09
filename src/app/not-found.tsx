@@ -9,7 +9,7 @@ export default function NotFound() {
         The piece you&apos;re looking for may have moved. The shop is still open.
       </p>
       <Link
-        href="/"
+        href="/home"
         className="btn-swipe btn-swipe-light mt-10 inline-block border border-black bg-black px-10 py-3 text-[13px] font-bold tracking-widest text-white"
       >
         BACK TO STORE
