@@ -4,7 +4,6 @@ import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
 import {
   BagIcon,
-  ChevronDownIcon,
   LongArrowIcon,
   PlayIcon,
   ReplayIcon,
@@ -14,11 +13,11 @@ import {
 } from "@/components/ui/icons";
 import { useCart } from "@/context/CartContext";
 
-/** The panel under the film that the scroll cue points at. */
-export const FILM_CONTINUE_ID = "film-continue";
-
 /** Where the film sends people: the store's landing page. */
 export const STORE_HOME = "/home";
+
+/** How close to the end the film gets before the call to action appears. */
+const CTA_LEAD_SECONDS = 4;
 
 type Status = "loading" | "playing" | "paused" | "ended" | "blocked";
 
@@ -31,8 +30,11 @@ export function VideoHero() {
   const [status, setStatus] = useState<Status>("loading");
   const [muted, setMuted] = useState(true);
   const [progress, setProgress] = useState(0);
+  const [nearEnd, setNearEnd] = useState(false);
 
   const finished = status === "ended" || status === "blocked";
+  // The call to action holds off until the film is nearly over, then stays.
+  const showCta = nearEnd || finished;
 
   /**
    * Play the film from the top. Used for the first autoplay and every time the
@@ -53,6 +55,7 @@ export function VideoHero() {
       // a seek before metadata lands is harmless, playback still starts at 0
     }
     setProgress(0);
+    setNearEnd(false);
 
     const attempt = video.play();
     if (attempt && typeof attempt.catch === "function") {
@@ -61,8 +64,9 @@ export function VideoHero() {
     }
   }, []);
 
-  // Restart whenever the film scrolls back into view, and stop it once it is
-  // scrolled away so nothing plays to an empty room.
+  // Start on mount, and start over if the screen is ever left and returned to.
+  // Judged on how much of the screen the film holds, with a gap between the two
+  // triggers so resting near the boundary cannot flicker.
   useEffect(() => {
     const section = sectionRef.current;
     const video = videoRef.current;
@@ -73,10 +77,6 @@ export function VideoHero() {
       return;
     }
 
-    // Judged on how much of the screen the film still holds, with a gap between
-    // the two triggers so a scroll that rests near the boundary cannot flicker.
-    // Ratios rather than a plain isIntersecting check, because the page may not
-    // be tall enough for the film to leave the viewport completely.
     const AWAY_BELOW = 0.35;
     const BACK_ABOVE = 0.65;
 
@@ -93,6 +93,7 @@ export function VideoHero() {
             // ignore, the next start seeks again anyway
           }
           setProgress(0);
+          setNearEnd(false);
           return;
         }
 
@@ -141,12 +142,6 @@ export function VideoHero() {
     if (!next && video.paused && !video.ended) video.play().catch(() => {});
   }, []);
 
-  const scrollOn = useCallback(() => {
-    const target = document.getElementById(FILM_CONTINUE_ID);
-    if (target) target.scrollIntoView({ behavior: "smooth", block: "start" });
-    else window.scrollTo({ top: window.innerHeight, behavior: "smooth" });
-  }, []);
-
   return (
     <section
       ref={sectionRef}
@@ -167,10 +162,14 @@ export function VideoHero() {
         onEnded={() => setStatus("ended")}
         onTimeUpdate={(e) => {
           const v = e.currentTarget;
-          if (v.duration) setProgress((v.currentTime / v.duration) * 100);
+          if (!v.duration) return;
+          setProgress((v.currentTime / v.duration) * 100);
+          // Short films get a proportional lead rather than a fixed one.
+          const lead = Math.min(CTA_LEAD_SECONDS, v.duration * 0.25);
+          setNearEnd(v.duration - v.currentTime <= lead);
         }}
         className={`film-grade absolute inset-0 h-full w-full object-cover object-[50%_38%] transition-all duration-700 ${
-          finished ? "film-grade-ended scale-[1.02]" : ""
+          finished ? "film-grade-ended scale-[1.02]" : showCta ? "film-grade-cta" : ""
         }`}
       />
 
@@ -224,9 +223,12 @@ export function VideoHero() {
         </div>
       </div>
 
-      {/* Centre stage: on screen from the first frame, not held back until the
-          film finishes, and it opens the store's landing page. */}
-      <div className="absolute inset-0 z-10 flex flex-col items-center justify-center px-6">
+      {/* Centre stage: arrives as the film runs out, then holds */}
+      <div
+        className={`absolute inset-0 z-10 flex flex-col items-center justify-center px-6 transition-all duration-700 ${
+          showCta ? "pointer-events-auto opacity-100" : "pointer-events-none translate-y-3 opacity-0"
+        }`}
+      >
         <p className="font-blackletter text-[34px] leading-none [text-shadow:0_2px_14px_rgba(0,0,0,0.85)] sm:text-[46px]">
           nvrsëynvr
         </p>
@@ -237,6 +239,7 @@ export function VideoHero() {
         <Link
           href={STORE_HOME}
           data-testid="video-shop-now"
+          tabIndex={showCta ? 0 : -1}
           className="btn-swipe btn-swipe-light mt-8 inline-flex items-center gap-3 border border-white bg-black/25 px-10 py-4 text-[13px] font-bold tracking-[0.2em] backdrop-blur-sm sm:px-14"
         >
           SHOP NOW
@@ -246,6 +249,7 @@ export function VideoHero() {
         {finished && (
           <button
             onClick={() => startFromTop(false)}
+            tabIndex={showCta ? 0 : -1}
             className="mt-6 inline-flex items-center gap-2 text-[11px] tracking-[0.2em] text-white/80 transition-colors hover:text-white"
           >
             {status === "blocked" ? (
@@ -261,17 +265,15 @@ export function VideoHero() {
         )}
       </div>
 
-      {/* Scroll affordance, always available so nobody is held by the film */}
-      <button
-        onClick={scrollOn}
-        data-testid="scroll-to-continue"
-        className="group absolute bottom-7 left-1/2 z-20 flex -translate-x-1/2 flex-col items-center gap-2"
+      {/* Skip: always there, for anyone who would rather go straight to the shop */}
+      <Link
+        href={STORE_HOME}
+        data-testid="film-skip"
+        className="group absolute bottom-6 right-5 z-20 inline-flex items-center gap-2 border border-white/45 bg-black/30 px-5 py-2.5 text-[11px] font-bold tracking-[0.22em] backdrop-blur-sm transition-colors hover:border-white hover:bg-black/55 lg:bottom-8 lg:right-8"
       >
-        <span className="text-[10px] tracking-[0.3em] text-white/85 transition-colors group-hover:text-white sm:text-[11px]">
-          SCROLL TO CONTINUE
-        </span>
-        <ChevronDownIcon className="h-5 w-5 animate-drift text-white/85 transition-colors group-hover:text-white" />
-      </button>
+        SKIP
+        <LongArrowIcon className="h-3 w-7 transition-transform duration-300 group-hover:translate-x-1" />
+      </Link>
 
       {/* Progress hairline */}
       <div aria-hidden="true" className="absolute inset-x-0 bottom-0 z-20 h-[2px] bg-white/15">

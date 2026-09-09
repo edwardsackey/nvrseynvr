@@ -163,9 +163,13 @@ input[type="number"] {
 .film-grade {
   filter: contrast(1.22) saturate(0.7) sepia(0.16) brightness(0.92);
 }
-/* Once the film ends the frame falls back so the call to action reads.
-   Declared here rather than with a utility class so it wins the cascade
-   against .film-grade instead of racing it. */
+/* As the call to action arrives the frame eases back a little, then further
+   once the film has finished, so the invitation always reads. Declared here
+   rather than with utility classes so they win the cascade against
+   .film-grade instead of racing it. */
+.film-grade-cta {
+  filter: contrast(1.22) saturate(0.62) sepia(0.16) brightness(0.62);
+}
 .film-grade-ended {
   filter: contrast(1.22) saturate(0.55) sepia(0.16) brightness(0.4);
 }
