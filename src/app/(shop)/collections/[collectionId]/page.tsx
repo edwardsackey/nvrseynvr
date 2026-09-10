@@ -24,11 +24,23 @@ export default function CollectionDetailPage({ params }: Props) {
   if (!collection) notFound();
 
   const items = getCollectionProducts(collection.id);
-  // A collection often holds a single piece offered in several colours, so lay
-  // the pieces out one card per colourway rather than one lonely card.
-  const colourways = items.flatMap((product) =>
-    product.colors.map((colour, index) => ({ product, colour, index }))
-  );
+
+  // A collection holding one or two pieces would look bare, so those are laid
+  // out a card per colourway. Colourways that share a photo collapse into one
+  // card, and a collection with enough pieces of its own is left alone.
+  const colourways =
+    items.length < 3
+      ? items.flatMap((product) => {
+          const seen: string[] = [];
+          return product.colors
+            .map((colour, index) => ({ product, colour, index }))
+            .filter(({ colour }) => {
+              if (seen.includes(colour.front)) return false;
+              seen.push(colour.front);
+              return true;
+            });
+        })
+      : items.map((product) => ({ product, colour: null, index: undefined }));
 
   return (
     <div className="pb-8">
@@ -40,14 +52,23 @@ export default function CollectionDetailPage({ params }: Props) {
 
       {/* Editorial hero */}
       <section className="relative min-h-[70vh] overflow-hidden bg-black lg:min-h-[92vh]">
-        <Image
-          src={collection.image}
-          alt={collection.name}
-          fill
-          priority
-          sizes="100vw"
-          className="ken-burns object-cover grayscale"
-        />
+        {collection.image ? (
+          <Image
+            src={collection.image}
+            alt={collection.name}
+            fill
+            priority
+            sizes="100vw"
+            className="ken-burns object-cover grayscale"
+          />
+        ) : (
+          /* Waiting on its cover shot: hold the space with the mark */
+          <div className="absolute inset-0 flex items-center justify-center bg-[#111111]">
+            <span className="font-blackletter text-[48px] text-white/25 lg:text-[80px]">
+              nvrsëynvr
+            </span>
+          </div>
+        )}
         <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-transparent to-black/20" />
         <span className="absolute right-6 top-6 flex items-center gap-2 text-[10px] font-bold tracking-widest text-white lg:right-10">
           <span className="bg-white/90 px-3 py-1 text-black">PLAY/PAUSE ▶</span>
@@ -77,7 +98,7 @@ export default function CollectionDetailPage({ params }: Props) {
         <Reveal group className="mt-8 grid grid-cols-2 gap-x-4 gap-y-8 sm:gap-x-5 sm:gap-y-10 lg:grid-cols-4">
           {colourways.map(({ product, colour, index }, i) => (
             <ProductCard
-              key={`${product.id}-${colour.sku}`}
+              key={colour ? `${product.id}-${colour.sku}` : product.id}
               product={product}
               colorIndex={index}
               priority={i < 4}

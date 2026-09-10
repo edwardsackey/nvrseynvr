@@ -16,14 +16,14 @@ import { Reveal } from "@/components/motion/Reveal";
 // pulled up so the back row keeps its headroom, the rest sit centred.
 const heroSlides = [
   {
-    src: "/images/lifestyle/studio-group-front.jpg",
-    position: "object-[50%_28%]",
-    alt: "The nvrsëynvr crew in the nvr sëy nvr tees and beanies",
+    src: "/images/lifestyle/studio-rack.jpg",
+    position: "object-center",
+    alt: "The crew going through the rail, holding up the Keep Moving tee",
   },
   {
-    src: "/images/lifestyle/studio-survivors-backs.jpg",
-    position: "object-center",
-    alt: "The Survivors lion back print across the crew",
+    src: "/images/lifestyle/studio-group-front.jpg",
+    position: "object-[50%_20%]",
+    alt: "The nvrsëynvr crew in the nvr sëy nvr tees and beanies",
   },
   {
     src: "/images/lifestyle/studio-four-front.jpg",
@@ -36,9 +36,9 @@ const heroSlides = [
 // back when pointed at.
 const exploreCards = [
   {
-    href: "/products/project-1957-freedom",
+    href: "/products/freedom-tee",
     label: "FREEDOM",
-    front: "/images/products/freedom-black-front.png",
+    front: "/images/products/freedom-black-front.webp",
     back: "/images/products/freedom-black-back.webp",
   },
   {
@@ -400,7 +400,7 @@ export default function LandingPage() {
           </p>
         </Reveal>
         <Link
-          href="/collections/project-1957-freedom"
+          href="/collections/project-1957"
           className="btn-swipe btn-swipe-dark absolute bottom-10 right-3 bg-white px-3.5 py-2.5 text-[10px] font-bold leading-none tracking-widest sm:bottom-14 sm:right-6 sm:px-5 sm:text-[11px] lg:right-10"
         >
           EXPLORE

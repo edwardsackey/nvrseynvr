@@ -1,6 +1,8 @@
 export interface ProductColor {
   name: string;
   hex: string;
+  /** Second tone for a two-colour make-up, drawn as a split swatch. */
+  hex2?: string;
   sku: string;
   /** Front of the garment: what the card and gallery open on. */
   front: string;
@@ -36,7 +38,8 @@ export interface Collection {
   id: string;
   name: string;
   description: string;
-  image: string;
+  /** Left off while a collection is still waiting on its cover shot. */
+  image?: string;
   latest?: boolean;
 }
 

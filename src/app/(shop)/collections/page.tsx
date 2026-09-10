@@ -25,14 +25,23 @@ export default function CollectionsPage() {
               href={`/collections/${collection.id}`}
               className="group relative block min-h-[420px] overflow-hidden bg-black lg:min-h-[560px]"
             >
-              <Image
-                src={collection.image}
-                alt={collection.name}
-                fill
-                priority={i === 0}
-                sizes="100vw"
-                className="object-cover grayscale transition-transform duration-700 ease-out group-hover:scale-[1.04]"
-              />
+              {collection.image ? (
+                <Image
+                  src={collection.image}
+                  alt={collection.name}
+                  fill
+                  priority={i === 0}
+                  sizes="100vw"
+                  className="object-cover grayscale transition-transform duration-700 ease-out group-hover:scale-[1.04]"
+                />
+              ) : (
+                /* Waiting on its cover shot: hold the space with the mark */
+                <div className="absolute inset-0 flex items-center justify-center bg-[#111111]">
+                  <span className="font-blackletter text-[38px] text-white/25 lg:text-[54px]">
+                    nvrsëynvr
+                  </span>
+                </div>
+              )}
               <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
               {collection.latest && (
                 <span className="absolute left-6 top-6 bg-white px-5 py-1.5 text-[11px] font-bold tracking-widest text-black">

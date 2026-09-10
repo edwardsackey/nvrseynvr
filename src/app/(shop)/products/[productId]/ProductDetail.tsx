@@ -180,7 +180,14 @@ export function ProductDetail({ product }: { product: Product }) {
                 >
                   <span
                     className="absolute inset-1 rounded-full"
-                    style={{ backgroundColor: c.hex }}
+                    style={
+                      c.hex2
+                        ? {
+                            // two-tone make-up: split the swatch on the diagonal
+                            backgroundImage: `linear-gradient(135deg, ${c.hex} 0 50%, ${c.hex2} 50% 100%)`,
+                          }
+                        : { backgroundColor: c.hex }
+                    }
                   />
                 </button>
               );

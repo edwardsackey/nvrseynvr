@@ -100,14 +100,21 @@ export function ProductCard({ product, priority = false, colorIndex }: ProductCa
       <p className="mt-1 text-[12px] text-black/50">{formatPrice(product.price)}</p>
       {!pinned && product.colors.length > 1 && (
         <div className="mt-2 flex items-center gap-1.5">
-          {product.colors.map((c) => (
+          {product.colors.slice(0, 6).map((c) => (
             <span
               key={c.sku}
               title={c.name}
               className="h-3 w-3 rounded-full border border-black/25"
-              style={{ backgroundColor: c.hex }}
+              style={
+                c.hex2
+                  ? { backgroundImage: `linear-gradient(135deg, ${c.hex} 0 50%, ${c.hex2} 50% 100%)` }
+                  : { backgroundColor: c.hex }
+              }
             />
           ))}
+          {product.colors.length > 6 && (
+            <span className="text-[10px] text-black/50">+{product.colors.length - 6}</span>
+          )}
         </div>
       )}
     </Link>
