@@ -58,7 +58,7 @@ function ShopContent() {
         <Reveal
           group
           key={`${query}-${current}`}
-          className="mt-8 grid grid-cols-1 gap-x-5 gap-y-10 sm:grid-cols-2 lg:grid-cols-4"
+          className="mt-8 grid grid-cols-2 gap-x-4 gap-y-8 sm:gap-x-5 sm:gap-y-10 lg:grid-cols-4"
         >
           {visible.map((product, i) => (
             <ProductCard key={product.id} product={product} priority={i < 4} />
@@ -67,12 +67,12 @@ function ShopContent() {
       )}
 
       {/* Pagination */}
-      <nav aria-label="Pagination" className="mt-14 flex items-center justify-center gap-4">
+      <nav aria-label="Pagination" className="mt-14 flex items-center justify-center gap-1">
         <button
           aria-label="Previous page"
           disabled={current <= 1}
           onClick={() => setPage(current - 1)}
-          className="disabled:opacity-30"
+          className="p-3 disabled:opacity-30"
         >
           <ChevronLeftIcon className="h-4 w-4" />
         </button>
@@ -81,7 +81,9 @@ function ShopContent() {
             key={n}
             aria-current={n === current ? "page" : undefined}
             onClick={() => setPage(n)}
-            className={`text-[14px] ${n === current ? "font-bold underline underline-offset-4" : "text-black/50"}`}
+            className={`min-w-[36px] px-2 py-2.5 text-[14px] ${
+              n === current ? "font-bold underline underline-offset-4" : "text-black/50"
+            }`}
           >
             {n}
           </button>
@@ -90,7 +92,7 @@ function ShopContent() {
           aria-label="Next page"
           disabled={current >= pageCount}
           onClick={() => setPage(current + 1)}
-          className="disabled:opacity-30"
+          className="p-3 disabled:opacity-30"
         >
           <ChevronRightIcon className="h-4 w-4" />
         </button>

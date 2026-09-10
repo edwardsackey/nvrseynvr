@@ -187,35 +187,38 @@ export function VideoHero() {
       />
 
       {/* Overlay navigation, so the top of the site is still navigable */}
-      <div className="absolute inset-x-0 top-0 z-20 flex items-center justify-between px-6 py-5 lg:px-10">
-        <div className="flex items-center gap-12">
-          <Link href={STORE_HOME} className="font-blackletter text-[18px] leading-none lg:text-[22px]">
+      <div className="absolute inset-x-0 top-0 z-20 flex items-center justify-between px-4 py-3 sm:px-6 sm:py-4 lg:px-10">
+        <div className="flex items-center gap-8 sm:gap-12">
+          <Link
+            href={STORE_HOME}
+            className="py-2 font-blackletter text-[18px] leading-none lg:text-[22px]"
+          >
             nvrsëynvr
           </Link>
           <nav aria-label="Main" className="hidden items-center gap-8 sm:flex">
-            <Link href="/shop" className="link-wipe text-[14px]">
+            <Link href="/shop" className="link-wipe py-2 text-[14px]">
               Shop
             </Link>
-            <Link href="/collections" className="link-wipe text-[14px]">
+            <Link href="/collections" className="link-wipe py-2 text-[14px]">
               Collections
             </Link>
           </nav>
         </div>
-        <div className="flex items-center gap-5">
+        <div className="flex items-center gap-1 sm:gap-3">
           <button
             onClick={toggleSound}
             aria-label={muted ? "Unmute film" : "Mute film"}
-            className="transition-opacity hover:opacity-70"
+            className="p-2.5 transition-opacity hover:opacity-70"
           >
             {muted ? <SoundOffIcon className="h-5 w-5" /> : <SoundOnIcon className="h-5 w-5" />}
           </button>
-          <Link href="/shop" aria-label="Search">
+          <Link href="/shop" aria-label="Search" className="p-2.5">
             <SearchIcon className="h-5 w-5" />
           </Link>
-          <Link href="/cart" aria-label="Shopping cart" className="relative">
+          <Link href="/cart" aria-label="Shopping cart" className="relative p-2.5">
             <BagIcon className="h-5 w-5" />
             {hydrated && itemCount > 0 && (
-              <span className="absolute -right-1.5 -top-1.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-white px-0.5 text-[10px] font-bold text-black">
+              <span className="absolute right-0.5 top-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-white px-0.5 text-[10px] font-bold text-black">
                 {itemCount}
               </span>
             )}

@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useState } from "react";
+import { useSearchParams } from "next/navigation";
 import { Product } from "@/lib/types";
 import { formatPrice } from "@/lib/format";
 import { colorImages } from "@/lib/data";
@@ -33,7 +34,7 @@ function AccordionRow({
       <button
         onClick={() => setOpen((v) => !v)}
         aria-expanded={open}
-        className="flex w-full items-center justify-between text-left"
+        className="flex w-full items-center justify-between py-1.5 text-left"
       >
         <span className="text-[13px] font-bold tracking-widest">{title}</span>
         {open ? <MinusIcon className="h-4 w-4" /> : <PlusIcon className="h-4 w-4" />}
@@ -46,10 +47,17 @@ function AccordionRow({
 export function ProductDetail({ product }: { product: Product }) {
   const { addItem } = useCart();
   const { showToast } = useToast();
+  const searchParams = useSearchParams();
+
+  // Collection cards link to a specific colourway, so open on that one.
+  const requested = searchParams.get("colour");
+  const initialColor =
+    product.colors.find((c) => c.name.toLowerCase() === requested?.toLowerCase())?.name ??
+    product.colors[0].name;
 
   const [model, setModel] = useState<"M" | "F">("M");
   const [imageIndex, setImageIndex] = useState(0);
-  const [color, setColor] = useState(product.colors[0].name);
+  const [color, setColor] = useState(initialColor);
   const [size, setSize] = useState<string | null>(
     product.sizes.length === 1 ? product.sizes[0] : null
   );
@@ -91,7 +99,7 @@ export function ProductDetail({ product }: { product: Product }) {
     <div className="mx-auto grid w-full max-w-site gap-10 px-4 pb-16 pt-4 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16 lg:px-16">
       {/* Gallery */}
       <Reveal variant="left">
-        <div className="group relative mx-auto aspect-[4/5] w-full max-w-[520px] overflow-hidden bg-card">
+        <div className="group relative mx-auto aspect-[6/5] w-full max-w-[560px] overflow-hidden bg-card">
           <Image
             key={mainImage}
             src={mainImage}
@@ -99,7 +107,7 @@ export function ProductDetail({ product }: { product: Product }) {
             fill
             priority
             sizes="(max-width: 1024px) 100vw, 45vw"
-            className="img-swap object-cover transition-transform duration-[900ms] ease-out group-hover:scale-[1.06]"
+            className="img-swap object-contain transition-transform duration-[900ms] ease-out group-hover:scale-[1.04]"
           />
         </div>
 
@@ -113,28 +121,29 @@ export function ProductDetail({ product }: { product: Product }) {
                 onClick={() => setImageIndex(i)}
                 className={`relative aspect-square w-16 overflow-hidden border transition-all duration-300 hover:-translate-y-0.5 ${i === imageIndex ? "border-black" : "border-black/15 hover:border-black/50"}`}
               >
-                <Image src={src} alt="" fill sizes="64px" className="object-cover" />
+                <Image src={src} alt="" fill sizes="64px" className="object-contain p-1" />
               </button>
             ))}
           </div>
         )}
 
-        {/* M / F toggle */}
-        <div className="mx-auto mt-5 flex max-w-[520px] justify-center gap-3">
-          {(["M", "F"] as const).map((m) => (
-            <button
-              key={m}
-              aria-pressed={model === m}
-              disabled={m === "F" && !product.imageFemale}
-              onClick={() => setModel(m)}
-              className={`h-9 w-12 border text-[13px] font-bold transition-colors disabled:opacity-30 ${
-                model === m ? "border-black bg-black text-white" : "border-black/40 bg-white"
-              }`}
-            >
-              {m}
-            </button>
-          ))}
-        </div>
+        {/* M / F toggle, only where there is a second fit to show */}
+        {product.imageFemale && (
+          <div className="mx-auto mt-5 flex max-w-[520px] justify-center gap-3">
+            {(["M", "F"] as const).map((m) => (
+              <button
+                key={m}
+                aria-pressed={model === m}
+                onClick={() => setModel(m)}
+                className={`h-9 w-12 border text-[13px] font-bold transition-colors ${
+                  model === m ? "border-black bg-black text-white" : "border-black/40 bg-white"
+                }`}
+              >
+                {m}
+              </button>
+            ))}
+          </div>
+        )}
       </Reveal>
 
       {/* Info panel. Revealed upwards rather than from the side: a sideways

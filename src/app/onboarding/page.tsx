@@ -29,7 +29,7 @@ export default function OnboardingPage() {
         <span className="font-blackletter text-[20px]">nvrsëynvr</span>
         <Link
           href="/home"
-          className="link-wipe flex items-center gap-3 text-[18px]"
+          className="link-wipe flex items-center gap-3 py-2 text-[16px] sm:text-[18px]"
         >
           Skip for now
           <LongArrowIcon className="h-4 w-9" />

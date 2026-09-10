@@ -38,8 +38,8 @@ const exploreCards = [
   {
     href: "/products/project-1957-freedom",
     label: "FREEDOM",
-    front: "/images/products/freedom-black-front.webp",
-    back: "/images/products/freedom-black-back.png",
+    front: "/images/products/freedom-black-front.png",
+    back: "/images/products/freedom-black-back.webp",
   },
   {
     href: "/products/survivors-tee",
@@ -147,31 +147,31 @@ export default function LandingPage() {
         />
 
         {/* Overlay header */}
-        <div className="absolute inset-x-0 top-0 z-20 flex items-center justify-between px-6 py-5 text-white lg:px-10">
-          <div className="flex items-center gap-12">
-            <Link href="/home" className="font-blackletter text-[18px] leading-none">
+        <div className="absolute inset-x-0 top-0 z-20 flex items-center justify-between px-4 py-3 text-white sm:px-6 sm:py-4 lg:px-10">
+          <div className="flex items-center gap-8 sm:gap-12">
+            <Link href="/home" className="py-2 font-blackletter text-[18px] leading-none">
               nvrsëynvr
             </Link>
             <nav aria-label="Main" className="hidden items-center gap-8 sm:flex">
-              <Link href="/shop" className="text-[14px] underline-offset-4 hover:underline">
+              <Link href="/shop" className="link-wipe py-2 text-[14px]">
                 Shop
               </Link>
-              <Link href="/collections" className="text-[14px] underline-offset-4 hover:underline">
+              <Link href="/collections" className="link-wipe py-2 text-[14px]">
                 Collections
               </Link>
             </nav>
           </div>
-          <div className="flex items-center gap-5">
-            <Link href="/shop" aria-label="Search">
+          <div className="flex items-center gap-1 sm:gap-3">
+            <Link href="/shop" aria-label="Search" className="p-2.5">
               <SearchIcon className="h-5 w-5" />
             </Link>
-            <button aria-label="Account" className="hidden sm:block">
+            <button aria-label="Account" className="hidden p-2.5 sm:block">
               <UserIcon className="h-5 w-5" />
             </button>
-            <Link href="/cart" aria-label="Shopping cart" className="relative">
+            <Link href="/cart" aria-label="Shopping cart" className="relative p-2.5">
               <BagIcon className="h-5 w-5" />
               {hydrated && itemCount > 0 && (
-                <span className="absolute -right-1.5 -top-1.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-white px-0.5 text-[10px] font-bold text-black">
+                <span className="absolute right-0.5 top-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-white px-0.5 text-[10px] font-bold text-black">
                   {itemCount}
                 </span>
               )}
@@ -195,28 +195,29 @@ export default function LandingPage() {
           </p>
           <Link
             href="/shop"
-            className="btn-swipe btn-swipe-dark mt-3 inline-flex items-center gap-2 border border-black px-3 py-1.5 text-[9px] font-bold tracking-widest sm:mt-5 sm:gap-3 sm:px-4 sm:py-2 sm:text-[11px]"
+            className="btn-swipe btn-swipe-dark mt-3 inline-flex items-center gap-2 border border-black px-3.5 py-2.5 text-[10px] font-bold leading-none tracking-widest sm:mt-5 sm:gap-3 sm:px-4 sm:py-3 sm:text-[11px]"
           >
             SHOP THE DROP
             <LongArrowIcon className="h-2.5 w-6 sm:h-3 sm:w-8" />
           </Link>
         </Reveal>
 
-        {/* Slide dashes */}
-        <div className="absolute bottom-5 left-1/2 z-10 flex -translate-x-1/2 gap-2">
+        {/* Slide dashes, with a tappable area around each hairline */}
+        <div className="absolute bottom-2 left-1/2 z-10 flex -translate-x-1/2">
           {heroSlides.map((_, i) => (
-            <button
-              key={i}
-              aria-label={`Slide ${i + 1}`}
-              onClick={() => setSlide(i)}
-              className={`h-[3px] w-6 transition-colors ${i === slide ? "bg-white" : "bg-white/40"}`}
-            />
+            <button key={i} aria-label={`Slide ${i + 1}`} onClick={() => setSlide(i)} className="px-1.5 py-3.5">
+              <span
+                className={`block h-[3px] w-6 transition-colors ${
+                  i === slide ? "bg-white" : "bg-white/40"
+                }`}
+              />
+            </button>
           ))}
         </div>
       </section>
 
       {/* ── THE COLLECTION: statement on the left, the pieces on the right ── */}
-      <section className="bg-[#f0efed] px-4 py-12 sm:py-16 lg:px-10 lg:py-20">
+      <section className="bg-white px-4 py-12 sm:py-16 lg:px-10 lg:py-20">
         <div className="mx-auto grid w-full max-w-site gap-10 lg:grid-cols-[minmax(240px,340px)_1fr] lg:gap-14">
           <Reveal variant="left" className="self-center">
             <div className="flex items-center gap-4">
@@ -252,24 +253,25 @@ export default function LandingPage() {
                 key={card.label}
                 href={card.href}
                 data-testid="explore-card"
-                className="group block w-[170px] shrink-0 snap-start sm:w-auto sm:shrink"
+                className="group block w-[200px] shrink-0 snap-start sm:w-auto sm:shrink"
               >
-                {/* Front slides out to the left, back slides in behind it */}
-                <div className="relative aspect-[3/4] overflow-hidden bg-[#e3e2e0]">
+                {/* The garment sits whole in the frame, front sliding out to
+                    the left as the back slides in behind it */}
+                <div className="relative aspect-[6/5] overflow-hidden bg-[#f4f3f1]">
                   <Image
                     src={card.front}
                     alt={`${card.label} tee, front`}
                     fill
-                    sizes="(max-width: 640px) 170px, (max-width: 1024px) 45vw, 22vw"
-                    className="object-cover transition-transform duration-500 ease-[cubic-bezier(0.65,0,0.35,1)] group-hover:-translate-x-full"
+                    sizes="(max-width: 640px) 200px, (max-width: 1024px) 45vw, 22vw"
+                    className="object-contain transition-transform duration-500 ease-[cubic-bezier(0.65,0,0.35,1)] group-hover:-translate-x-full"
                   />
                   <Image
                     src={card.back}
                     alt={`${card.label} tee, back`}
                     fill
-                    sizes="(max-width: 640px) 170px, (max-width: 1024px) 45vw, 22vw"
+                    sizes="(max-width: 640px) 200px, (max-width: 1024px) 45vw, 22vw"
                     data-testid="explore-card-back"
-                    className="translate-x-full object-cover transition-transform duration-500 ease-[cubic-bezier(0.65,0,0.35,1)] group-hover:translate-x-0"
+                    className="translate-x-full object-contain transition-transform duration-500 ease-[cubic-bezier(0.65,0,0.35,1)] group-hover:translate-x-0"
                   />
                 </div>
                 <p className="mt-3 text-[12px] font-bold tracking-[0.1em] sm:text-[13px]">
@@ -316,7 +318,7 @@ export default function LandingPage() {
           <Reveal className="mt-6 flex justify-end">
             <Link
               href="/shop"
-              className="link-wipe inline-flex items-center gap-2 text-[11px] font-bold tracking-widest"
+              className="link-wipe inline-flex items-center gap-2 py-2.5 text-[11px] font-bold tracking-widest"
             >
               SHOP NOW <LongArrowIcon className="h-3 w-8" />
             </Link>
@@ -359,7 +361,7 @@ export default function LandingPage() {
           />
           <Link
             href="/shop"
-            className="btn-swipe btn-swipe-dark absolute right-1 top-1/2 -translate-y-1/2 bg-white px-2 py-1 text-[8px] font-bold tracking-widest sm:right-2 sm:px-3 sm:py-1.5 sm:text-[10px] lg:right-4"
+            className="btn-swipe btn-swipe-dark absolute right-1.5 top-1/2 -translate-y-1/2 bg-white px-2.5 py-2 text-[10px] font-bold leading-none tracking-widest sm:right-3 sm:px-4 sm:py-2.5 sm:text-[11px] lg:right-5"
           >
             EXPLORE NOW
           </Link>
@@ -417,7 +419,7 @@ export default function LandingPage() {
           sizes="100vw"
           className="ken-burns object-cover grayscale"
         />
-        <span className="absolute left-3 top-3 bg-white px-3 py-1 text-[9px] font-bold tracking-widest sm:left-6 sm:top-6 sm:px-5 sm:py-1.5 sm:text-[11px]">
+        <span className="absolute left-3 top-3 bg-white px-3 py-1.5 text-[10px] font-bold leading-none tracking-widest sm:left-6 sm:top-6 sm:px-5 sm:text-[11px]">
           NEW
         </span>
         <Reveal
@@ -433,7 +435,7 @@ export default function LandingPage() {
         </Reveal>
         <Link
           href="/collections/project-1957-freedom"
-          className="btn-swipe btn-swipe-dark absolute bottom-10 right-3 bg-white px-3 py-1 text-[9px] font-bold tracking-widest sm:bottom-14 sm:right-6 sm:px-5 sm:py-1.5 sm:text-[11px] lg:right-10"
+          className="btn-swipe btn-swipe-dark absolute bottom-10 right-3 bg-white px-3.5 py-2.5 text-[10px] font-bold leading-none tracking-widest sm:bottom-14 sm:right-6 sm:px-5 sm:text-[11px] lg:right-10"
         >
           EXPLORE
         </Link>

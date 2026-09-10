@@ -24,6 +24,11 @@ export default function CollectionDetailPage({ params }: Props) {
   if (!collection) notFound();
 
   const items = getCollectionProducts(collection.id);
+  // A collection often holds a single piece offered in several colours, so lay
+  // the pieces out one card per colourway rather than one lonely card.
+  const colourways = items.flatMap((product) =>
+    product.colors.map((colour, index) => ({ product, colour, index }))
+  );
 
   return (
     <div className="pb-8">
@@ -66,18 +71,23 @@ export default function CollectionDetailPage({ params }: Props) {
         <Reveal className="flex items-baseline gap-3 pt-10">
           <span className="text-[18px] font-bold tracking-wide">EXPLORE</span>
           <span className="inline-block h-1.5 w-1.5 rounded-full bg-black" />
-          <span className="text-[14px]">{items.length} Items</span>
+          <span className="text-[14px]">{colourways.length} Items</span>
         </Reveal>
 
-        <Reveal group className="mt-8 grid grid-cols-1 gap-x-5 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
-          {items.map((product, i) => (
-            <ProductCard key={product.id} product={product} priority={i < 4} />
+        <Reveal group className="mt-8 grid grid-cols-2 gap-x-4 gap-y-8 sm:gap-x-5 sm:gap-y-10 lg:grid-cols-4">
+          {colourways.map(({ product, colour, index }, i) => (
+            <ProductCard
+              key={`${product.id}-${colour.sku}`}
+              product={product}
+              colorIndex={index}
+              priority={i < 4}
+            />
           ))}
         </Reveal>
 
         <Reveal className="py-16 text-center">
           <p className="text-[14px]">You&apos;ve reached the end of this selection</p>
-          <p className="mt-1 text-[12px] text-black/50">{items.length} Items</p>
+          <p className="mt-1 text-[12px] text-black/50">{colourways.length} Items</p>
         </Reveal>
       </div>
     </div>

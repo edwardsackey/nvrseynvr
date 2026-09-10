@@ -227,12 +227,18 @@ input[type="number"] {
 /* ── Buttons: the fill swipes in from the left on hover ──
    The pseudo element sits at z-index -1 inside an isolated
    stacking context, so it paints over the button's own
-   background but under its label, with no markup changes. */
-.btn-swipe {
-  position: relative;
-  isolation: isolate;
-  overflow: hidden;
-  transition: color 0.35s ease;
+   background but under its label, with no markup changes.
+
+   These live in the components layer so utility classes still
+   win: a button that is also positioned absolutely must keep
+   its own position rather than being forced back to relative. */
+@layer components {
+  .btn-swipe {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    transition: color 0.35s ease;
+  }
 }
 .btn-swipe::before {
   content: "";
@@ -270,8 +276,10 @@ input[type="number"] {
 }
 
 /* ── Text links: underline wipes across on hover ── */
-.link-wipe {
-  position: relative;
+@layer components {
+  .link-wipe {
+    position: relative;
+  }
 }
 .link-wipe::after {
   content: "";

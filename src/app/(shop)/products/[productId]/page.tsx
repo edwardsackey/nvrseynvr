@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getProduct, getRelatedProducts, products } from "@/lib/data";
 import { ProductCard } from "@/components/product/ProductCard";
+import { Suspense } from "react";
 import { ProductDetail } from "./ProductDetail";
 import { Reveal } from "@/components/motion/Reveal";
 
@@ -53,14 +54,16 @@ export default function ProductPage({ params }: Props) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <ProductDetail product={product} />
+      <Suspense fallback={<div className="min-h-[60vh]" />}>
+        <ProductDetail product={product} />
+      </Suspense>
 
       {related.length > 0 && (
         <section className="mx-auto w-full max-w-site px-4 pb-20 lg:px-8">
           <Reveal>
             <h2 className="text-[18px] font-bold tracking-[0.08em]">SIMILAR COLLECTIONS</h2>
           </Reveal>
-          <Reveal group className="mt-8 grid grid-cols-1 gap-x-5 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
+          <Reveal group className="mt-8 grid grid-cols-2 gap-x-4 gap-y-8 sm:gap-x-5 sm:gap-y-10 lg:grid-cols-4">
             {related.map((p) => (
               <ProductCard key={p.id} product={p} />
             ))}

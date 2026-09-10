@@ -121,7 +121,7 @@ export function Header() {
 
       {/* Centered blackletter wordmark */}
       <div className="flex justify-center pb-4 pt-1">
-        <Link href="/home" className="font-blackletter text-[26px] leading-none sm:text-[32px]">
+        <Link href="/home" className="py-1 font-blackletter text-[26px] leading-none sm:text-[32px]">
           nvrsëynvr
         </Link>
       </div>

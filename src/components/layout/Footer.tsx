@@ -52,7 +52,7 @@ export function Footer() {
                 aria-label="Email address"
                 className="w-full bg-transparent text-[15px] text-white focus:outline-none"
               />
-              <button type="submit" aria-label="Subscribe">
+              <button type="submit" aria-label="Subscribe" className="-mb-1 shrink-0 px-1 py-2">
                 <LongArrowIcon className="h-4 w-12" />
               </button>
             </div>
@@ -66,12 +66,16 @@ export function Footer() {
           </div>
         </div>
 
-        {/* Links, all on one aligned row */}
-        <div className="order-2 grid min-w-0 grid-cols-2 gap-x-6 gap-y-4 lg:flex lg:flex-nowrap lg:items-start lg:justify-end lg:gap-x-6 lg:pt-2 xl:order-3 xl:gap-x-7 xl:pt-8">
+        {/* Links: a tidy stack on phones, one aligned row pushed right on
+            wide screens */}
+        <div
+          data-testid="footer-nav"
+          className="order-2 flex min-w-0 flex-col items-start gap-3.5 lg:flex-row lg:flex-nowrap lg:items-start lg:justify-end lg:gap-x-6 lg:pt-2 xl:order-3 xl:gap-x-8 xl:pr-2 xl:pt-8"
+        >
           {navItems.map((item) => (
             <button
               key={item.label}
-              className="link-wipe flex items-center gap-1.5 whitespace-nowrap text-[16px] xl:text-[17px]"
+              className="link-wipe flex items-center gap-1.5 whitespace-nowrap py-1 text-[15px] sm:text-[16px] xl:text-[17px]"
             >
               {item.label}
               {item.dropdown && <ChevronDownIcon className="h-4 w-4 shrink-0" />}
