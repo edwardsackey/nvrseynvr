@@ -61,13 +61,6 @@ const exploreCards = [
   },
 ];
 
-const categoryChips = [
-  { label: "T-SHIRTS", image: "/images/products/classic-tee-black-back.webp", href: "/shop?q=t-shirt" },
-  { label: "CAP - OLD SCHOOL", image: "/images/products/caps-circle-1.webp", href: "/shop?q=cap" },
-  { label: "CAPS", image: "/images/products/ns-caps-pile.webp", href: "/shop?q=cap" },
-  { label: "BENNIE", image: "/images/products/beanie-olive-stack.webp", href: "/shop?q=beanie" },
-];
-
 const communityPhotos = [
   { src: "/images/collab/joeyb-poster.png", alt: "Joey B in the nvrsëynvr beanie" },
   { src: "/images/lifestyle/ghana-flag-man.webp", alt: "Raising the Ghana flag over Accra" },
@@ -217,8 +210,8 @@ export default function LandingPage() {
       </section>
 
       {/* ── THE COLLECTION: statement on the left, the pieces on the right ── */}
-      <section className="bg-white px-4 py-12 sm:py-16 lg:px-10 lg:py-20">
-        <div className="mx-auto grid w-full max-w-site gap-10 lg:grid-cols-[minmax(240px,340px)_1fr] lg:gap-14">
+      <section className="bg-white px-5 py-14 sm:py-20 lg:px-10 lg:py-24">
+        <div className="mx-auto grid w-full max-w-site gap-12 lg:grid-cols-[minmax(240px,340px)_1fr] lg:gap-14">
           <Reveal variant="left" className="self-center">
             <div className="flex items-center gap-4">
               <span className="text-[11px] font-bold tracking-[0.22em] text-black/70">
@@ -246,7 +239,9 @@ export default function LandingPage() {
 
           <Reveal
             group
-            className="-mx-4 flex snap-x snap-mandatory gap-4 overflow-x-auto px-4 pb-2 sm:mx-0 sm:grid sm:grid-cols-2 sm:gap-6 sm:overflow-visible sm:px-0 sm:pb-0 lg:grid-cols-4"
+            /* the bleed matches the section gutter so the row starts on the
+               same line as the copy beside it */
+            className="-mx-5 flex snap-x snap-mandatory scroll-pl-5 gap-4 overflow-x-auto px-5 pb-2 sm:mx-0 sm:grid sm:grid-cols-2 sm:gap-6 sm:overflow-visible sm:px-0 sm:pb-0 lg:grid-cols-4"
           >
             {exploreCards.map((card) => (
               <Link
@@ -287,45 +282,6 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* ── UNISEX / NEW COLLECTION category chips ── */}
-      <section className="bg-white px-4 py-16 lg:px-8">
-        <div className="mx-auto w-full max-w-4xl">
-          <Reveal>
-            <p className="text-center text-[11px] tracking-[0.2em] text-black/70">UNISEX</p>
-            <div className="mt-3 flex justify-center">
-              <span className="bg-black px-8 py-2 text-[11px] font-bold tracking-widest text-white">
-                NEW COLLECTION
-              </span>
-            </div>
-          </Reveal>
-          <Reveal
-            group
-            className="-mx-4 mt-6 flex snap-x gap-2 overflow-x-auto px-4 pb-2 sm:mx-0 sm:mt-8 sm:grid sm:grid-cols-4 sm:gap-3 sm:overflow-visible sm:px-0 sm:pb-0"
-          >
-            {categoryChips.map((chip) => (
-              <Link
-                key={chip.label}
-                href={chip.href}
-                className="flex shrink-0 snap-start items-center gap-2 bg-[#efefef] p-1.5 pr-3 transition-colors hover:bg-[#e3e3e3] sm:shrink sm:gap-3 sm:p-2 sm:pr-4"
-              >
-                <span className="relative h-8 w-8 shrink-0 overflow-hidden bg-white sm:h-10 sm:w-10">
-                  <Image src={chip.image} alt="" fill sizes="40px" className="object-cover" />
-                </span>
-                <span className="whitespace-nowrap text-[10px] font-bold tracking-wide sm:text-[12px]">{chip.label}</span>
-              </Link>
-            ))}
-          </Reveal>
-          <Reveal className="mt-6 flex justify-end">
-            <Link
-              href="/shop"
-              className="link-wipe inline-flex items-center gap-2 py-2.5 text-[11px] font-bold tracking-widest"
-            >
-              SHOP NOW <LongArrowIcon className="h-3 w-8" />
-            </Link>
-          </Reveal>
-        </div>
-      </section>
-
       {/* ── Joey B collaboration ── */}
       <Reveal
         as="section"
@@ -359,15 +315,17 @@ export default function LandingPage() {
             sizes="20vw"
             className="object-cover brightness-[0.5]"
           />
+          {/* The side panel is too narrow on a phone to hold a label, so the
+              button only lives here from small screens up. */}
           <Link
             href="/shop"
-            className="btn-swipe btn-swipe-dark absolute right-1.5 top-1/2 -translate-y-1/2 bg-white px-2.5 py-2 text-[10px] font-bold leading-none tracking-widest sm:right-3 sm:px-4 sm:py-2.5 sm:text-[11px] lg:right-5"
+            className="btn-swipe btn-swipe-dark absolute right-2 top-1/2 hidden -translate-y-1/2 whitespace-nowrap bg-white px-3 py-2.5 text-[10px] font-bold leading-none tracking-widest sm:inline-block sm:right-3 sm:px-4 sm:text-[11px] lg:right-5"
           >
             EXPLORE NOW
           </Link>
         </div>
         {/* Caption pinned to the bottom-left corner of the whole section */}
-        <div className="absolute bottom-4 left-2 z-10 text-left sm:bottom-8 sm:left-4 lg:left-8">
+        <div className="absolute bottom-5 left-4 z-10 text-left sm:bottom-8 lg:left-8">
           <p className="text-[13px] text-white [text-shadow:0_1px_10px_rgba(0,0,0,0.8)] sm:text-[18px] lg:text-[24px]">
             <span className="font-blackletter">nvrsëynvr</span>{" "}
             <span className="font-bold">X JOEY B</span>
@@ -375,6 +333,12 @@ export default function LandingPage() {
           <p className="mt-0.5 text-[11px] tracking-[0.12em] text-white [text-shadow:0_1px_10px_rgba(0,0,0,0.8)] sm:mt-1 sm:text-[16px] lg:text-[20px]">
             COLLABORATION
           </p>
+          <Link
+            href="/shop"
+            className="btn-swipe btn-swipe-dark mt-3 inline-block whitespace-nowrap bg-white px-3.5 py-2.5 text-[10px] font-bold leading-none tracking-widest sm:hidden"
+          >
+            EXPLORE NOW
+          </Link>
         </div>
       </Reveal>
 
@@ -384,17 +348,19 @@ export default function LandingPage() {
       </Reveal>
 
       {/* ── Join our community ── */}
-      <section className="bg-[#f5f5f5] px-4 py-8 sm:py-14 lg:px-10">
+      <section className="bg-[#f5f5f5] px-5 py-14 sm:py-20 lg:px-10 lg:py-24">
         <div className="mx-auto w-full max-w-site">
-          <Reveal className="flex items-start justify-between">
-            <h2 className="text-left text-[15px] leading-tight sm:text-[24px]">
+          <Reveal className="flex items-start justify-between gap-4">
+            <h2 className="text-left text-[16px] leading-tight sm:text-[24px]">
               <span className="font-bold">JOIN</span>
               <br />
               <span className="tracking-[0.06em]">OUR COMMUNITY</span>
             </h2>
-            <span className="text-right font-blackletter text-[15px] sm:text-[24px]">nvrsëynvr</span>
+            <span className="text-right font-blackletter text-[16px] leading-none sm:text-[24px]">
+              nvrsëynvr
+            </span>
           </Reveal>
-          <Reveal group className="mt-5 grid grid-cols-3 gap-2 sm:mt-8 sm:gap-6">
+          <Reveal group className="mt-6 grid grid-cols-3 gap-3 sm:mt-10 sm:gap-6">
             {communityPhotos.map((photo) => (
               <div key={photo.src} className="group relative aspect-[645/794] overflow-hidden">
                 <Image
