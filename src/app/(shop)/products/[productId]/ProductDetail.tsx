@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useState } from "react";
 import { Product } from "@/lib/types";
 import { formatPrice } from "@/lib/format";
+import { colorImages } from "@/lib/data";
 import { useCart } from "@/context/CartContext";
 import { useToast } from "@/context/ToastContext";
 import { ChevronDownIcon, MinusIcon, PlusIcon, StarIcon } from "@/components/ui/icons";
@@ -54,10 +55,21 @@ export function ProductDetail({ product }: { product: Product }) {
   );
   const [sizeOpen, setSizeOpen] = useState(true);
 
+  const activeColor =
+    product.colors.find((c) => c.name === color) ?? product.colors[0];
+  // Front first, then the back, then any extra shots of the piece.
+  const gallery = colorImages(product, activeColor);
   const mainImage =
     model === "F" && product.imageFemale
       ? product.imageFemale
-      : product.images[imageIndex];
+      : gallery[Math.min(imageIndex, gallery.length - 1)];
+
+  /** Picking a colour swaps the gallery back to that colourway's front. */
+  function chooseColor(name: string) {
+    setColor(name);
+    setImageIndex(0);
+    setModel("M");
+  }
 
   function handleAddToCart() {
     if (!size) {
@@ -92,9 +104,9 @@ export function ProductDetail({ product }: { product: Product }) {
         </div>
 
         {/* Thumbnails */}
-        {product.images.length > 1 && model === "M" && (
-          <div className="mx-auto mt-3 flex max-w-[520px] gap-3">
-            {product.images.map((src, i) => (
+        {gallery.length > 1 && model === "M" && (
+          <div className="mx-auto mt-3 flex max-w-[520px] flex-wrap gap-3">
+            {gallery.map((src, i) => (
               <button
                 key={src}
                 aria-label={`View image ${i + 1}`}
@@ -125,34 +137,51 @@ export function ProductDetail({ product }: { product: Product }) {
         </div>
       </Reveal>
 
-      {/* Info panel */}
-      <Reveal variant="right" className="max-w-[520px]">
+      {/* Info panel. Revealed upwards rather than from the side: a sideways
+          transform on a full width column pushes past the viewport edge and
+          gives the page a horizontal scrollbar on phones. */}
+      <Reveal className="max-w-[520px]">
         <p className="font-blackletter text-[15px]">nvrsëynvr</p>
         <h1 className="mt-2 text-[22px] font-bold tracking-wide">{product.name}</h1>
         <p className="mt-1 text-[13px] text-black/50">{formatPrice(product.price)}</p>
 
-        {/* Color + size selectors */}
-        <div className="mt-6 grid grid-cols-2 gap-4">
-          <div>
-            <div className="relative">
-              <select
-                value={color}
-                onChange={(e) => setColor(e.target.value)}
-                aria-label="Colour"
-                className="h-10 w-full appearance-none border border-black bg-white px-3 pr-8 text-[13px] focus:outline-none"
-              >
-                {product.colors.map((c) => (
-                  <option key={c.sku} value={c.name}>
-                    {c.name}
-                  </option>
-                ))}
-              </select>
-              <ChevronDownIcon className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2" />
-            </div>
-            <p className="mt-2 text-[10px] tracking-widest text-black/40">COLOR CHART</p>
+        {/* Colour swatches: pick a colourway and the gallery follows */}
+        <fieldset className="mt-6">
+          <legend className="text-[11px] font-bold tracking-[0.18em] text-black/70">
+            COLOUR
+            <span className="ml-2 font-normal tracking-normal text-black">
+              {activeColor.name}
+            </span>
+          </legend>
+          <div className="mt-3 flex flex-wrap items-center gap-3" data-testid="colour-swatches">
+            {product.colors.map((c) => {
+              const selected = c.name === color;
+              return (
+                <button
+                  key={c.sku}
+                  type="button"
+                  onClick={() => chooseColor(c.name)}
+                  aria-pressed={selected}
+                  aria-label={`Colour: ${c.name}`}
+                  data-colour={c.name}
+                  title={c.name}
+                  className={`relative h-10 w-10 rounded-full border transition-all duration-200 hover:scale-105 ${
+                    selected ? "border-black ring-1 ring-black ring-offset-2" : "border-black/25"
+                  }`}
+                >
+                  <span
+                    className="absolute inset-1 rounded-full"
+                    style={{ backgroundColor: c.hex }}
+                  />
+                </button>
+              );
+            })}
           </div>
+        </fieldset>
 
-          <div>
+        {/* Size */}
+        <div className="mt-6">
+          <div className="max-w-[280px]">
             <button
               onClick={() => setSizeOpen((v) => !v)}
               aria-expanded={sizeOpen}

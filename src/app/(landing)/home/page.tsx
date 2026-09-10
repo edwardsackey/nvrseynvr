@@ -3,7 +3,6 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { formatPrice } from "@/lib/format";
 import {
   BagIcon,
   LongArrowIcon,
@@ -33,30 +32,32 @@ const heroSlides = [
   },
 ];
 
+// Front and back of each piece: the card opens on the front and swipes to the
+// back when pointed at.
 const exploreCards = [
   {
-    href: "/products/black-roundneck-tee",
-    image: "/images/products/classic-tee-black-back.webp",
-    name: "BLACK ROUNDNECK T-SHIRT",
-    price: 200,
-  },
-  {
-    href: "/products/grind-trucker-cap",
-    image: "/images/products/caps-circle-1.webp",
-    name: "GRIND TRUCKER CAP",
-    price: 150,
-  },
-  {
-    href: "/products/olive-beanie",
-    image: "/images/products/beanie-olive-tees.png",
-    name: "OLIVE BEANIE",
-    price: 120,
-  },
-  {
     href: "/products/project-1957-freedom",
-    image: "/images/products/freedom-tee-flat.webp",
-    name: "PROJECT-1957-FREEDOM TEE",
-    price: 200,
+    label: "FREEDOM",
+    front: "/images/products/freedom-black-front.webp",
+    back: "/images/products/freedom-black-back.png",
+  },
+  {
+    href: "/products/survivors-tee",
+    label: "SURVIVORS",
+    front: "/images/products/survivors-ivory-front.webp",
+    back: "/images/products/survivors-ivory-back.webp",
+  },
+  {
+    href: "/products/keep-moving-tee",
+    label: "KEEP MOVING",
+    front: "/images/products/keepmoving-sand-front.webp",
+    back: "/images/products/keepmoving-sand-back.webp",
+  },
+  {
+    href: "/products/ghana-must-go-tee",
+    label: "GHANA MUST GO",
+    front: "/images/products/ghanamustgo-white-front.webp",
+    back: "/images/products/ghanamustgo-white-back.webp",
   },
 ];
 
@@ -214,39 +215,70 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* ── ALL / EXPLORE product cards ── */}
-      <section className="bg-[#efefef] px-4 pb-12 pt-8 sm:pb-20 sm:pt-10 lg:px-8">
-        <div className="mx-auto w-full max-w-site">
-          <Reveal>
-            <p className="text-[13px] font-bold tracking-wide sm:text-[14px]">ALL</p>
-            <p className="text-[14px] tracking-[0.15em] sm:text-[15px]">EXPLORE</p>
+      {/* ── THE COLLECTION: statement on the left, the pieces on the right ── */}
+      <section className="bg-[#f0efed] px-4 py-12 sm:py-16 lg:px-10 lg:py-20">
+        <div className="mx-auto grid w-full max-w-site gap-10 lg:grid-cols-[minmax(240px,340px)_1fr] lg:gap-14">
+          <Reveal variant="left" className="self-center">
+            <div className="flex items-center gap-4">
+              <span className="text-[11px] font-bold tracking-[0.22em] text-black/70">
+                THE COLLECTION
+              </span>
+              <span aria-hidden="true" className="h-px w-14 bg-black/35" />
+            </div>
+            <h2 className="mt-5 text-[34px] font-bold leading-[1.05] tracking-tight sm:text-[42px] lg:text-[46px]">
+              GRIND. GROW.
+              <br />
+              REPEAT.
+            </h2>
+            <p className="mt-5 max-w-[260px] text-[12px] leading-relaxed tracking-[0.12em] text-black/65 sm:text-[13px]">
+              PREMIUM STREETWEAR FOR
+              <br className="hidden sm:block" /> THE RELENTLESS.
+            </p>
+            <Link
+              href="/collections"
+              className="btn-swipe btn-swipe-dark mt-8 inline-flex items-center gap-3 border border-black px-6 py-3 text-[11px] font-bold tracking-[0.18em]"
+            >
+              VIEW COLLECTION
+              <LongArrowIcon className="h-3 w-7" />
+            </Link>
           </Reveal>
+
           <Reveal
             group
-            className="-mx-4 mt-5 flex snap-x snap-mandatory gap-3 overflow-x-auto px-4 pb-2 sm:mx-0 sm:mt-8 sm:grid sm:grid-cols-2 sm:gap-6 sm:overflow-visible sm:px-0 sm:pb-0 lg:grid-cols-4"
+            className="-mx-4 flex snap-x snap-mandatory gap-4 overflow-x-auto px-4 pb-2 sm:mx-0 sm:grid sm:grid-cols-2 sm:gap-6 sm:overflow-visible sm:px-0 sm:pb-0 lg:grid-cols-4"
           >
             {exploreCards.map((card) => (
               <Link
-                key={card.name}
+                key={card.label}
                 href={card.href}
-                className="group card-lift block w-[158px] shrink-0 snap-start sm:w-auto sm:shrink"
+                data-testid="explore-card"
+                className="group block w-[170px] shrink-0 snap-start sm:w-auto sm:shrink"
               >
-                <div className="bg-[#e3e3e3] px-3 pb-5 pt-2 sm:px-6 sm:pb-10 sm:pt-4">
-                  <span className="flex items-center justify-end gap-1.5 text-[9px] tracking-widest sm:gap-2 sm:text-[11px]">
-                    SHOP <LongArrowIcon className="h-2.5 w-5 sm:h-3 sm:w-7" />
-                  </span>
-                  <div className="relative mx-auto mt-2 aspect-[376/429] w-full max-w-[340px] overflow-hidden bg-white sm:mt-3">
-                    <Image
-                      src={card.image}
-                      alt={card.name}
-                      fill
-                      sizes="(max-width: 640px) 160px, (max-width: 1024px) 45vw, 24vw"
-                      className="object-cover transition-transform duration-300 group-hover:scale-[1.03]"
-                    />
-                  </div>
+                {/* Front slides out to the left, back slides in behind it */}
+                <div className="relative aspect-[3/4] overflow-hidden bg-[#e3e2e0]">
+                  <Image
+                    src={card.front}
+                    alt={`${card.label} tee, front`}
+                    fill
+                    sizes="(max-width: 640px) 170px, (max-width: 1024px) 45vw, 22vw"
+                    className="object-cover transition-transform duration-500 ease-[cubic-bezier(0.65,0,0.35,1)] group-hover:-translate-x-full"
+                  />
+                  <Image
+                    src={card.back}
+                    alt={`${card.label} tee, back`}
+                    fill
+                    sizes="(max-width: 640px) 170px, (max-width: 1024px) 45vw, 22vw"
+                    data-testid="explore-card-back"
+                    className="translate-x-full object-cover transition-transform duration-500 ease-[cubic-bezier(0.65,0,0.35,1)] group-hover:translate-x-0"
+                  />
                 </div>
-                <p className="mt-2 text-[10px] font-bold tracking-wide sm:mt-3 sm:text-[13px]">{card.name}</p>
-                <p className="mt-0.5 text-[9px] text-black/50 sm:mt-1 sm:text-[11px]">{formatPrice(card.price)}</p>
+                <p className="mt-3 text-[12px] font-bold tracking-[0.1em] sm:text-[13px]">
+                  {card.label}
+                </p>
+                <span className="mt-1.5 inline-flex items-center gap-2 text-[10px] tracking-[0.18em] text-black/60 transition-colors group-hover:text-black sm:text-[11px]">
+                  SHOP NOW
+                  <LongArrowIcon className="h-2.5 w-6 transition-transform duration-300 group-hover:translate-x-1" />
+                </span>
               </Link>
             ))}
           </Reveal>

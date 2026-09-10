@@ -2,6 +2,10 @@ export interface ProductColor {
   name: string;
   hex: string;
   sku: string;
+  /** Front of the garment: what the card and gallery open on. */
+  front: string;
+  /** Back of the garment, revealed on hover and in the gallery. */
+  back?: string;
 }
 
 export type ProductBadge = "new" | "coming-soon";
@@ -12,6 +16,7 @@ export interface Product {
   category: "T-SHIRT" | "CAP" | "BEANIE";
   price: number;
   originalPrice?: number;
+  /** Extra shots beyond the colourway fronts and backs, e.g. on the body. */
   images: string[];
   /** Alternate image shown when the F model toggle is active on the PDP */
   imageFemale?: string;
