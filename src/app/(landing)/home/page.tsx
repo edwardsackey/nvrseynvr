@@ -116,28 +116,53 @@ export default function LandingPage() {
 
   return (
     <>
-      {/* ── Hero with overlay nav ── */}
-      <section className="relative min-h-[92vh] overflow-hidden bg-black lg:min-h-screen">
-        {heroSlides.map((frame, i) => (
-          <Image
-            key={frame.src}
-            src={frame.src}
-            alt={frame.alt}
-            fill
-            priority={i === 0}
-            sizes="100vw"
-            className={`object-cover ${frame.position} grayscale transition-opacity duration-1000 ${
-              i === slide ? "ken-burns opacity-100" : "opacity-0"
-            }`}
-          />
-        ))}
+      {/* ── Hero with overlay nav ──
+          The photography is landscape. On a phone it keeps that shape at the
+          top of the page with the message card beneath it, rather than being
+          blown up to fill a tall portrait frame. From small screens up it goes
+          back to a full bleed hero with the card laid over it. */}
+      <section className="relative overflow-hidden bg-black pb-8 lg:min-h-screen lg:pb-0">
+        <div className="relative aspect-[2048/1394] w-full lg:absolute lg:inset-0 lg:aspect-auto">
+          {heroSlides.map((frame, i) => (
+            <Image
+              key={frame.src}
+              src={frame.src}
+              alt={frame.alt}
+              fill
+              priority={i === 0}
+              sizes="100vw"
+              className={`object-cover ${frame.position} grayscale transition-opacity duration-1000 ${
+                i === slide ? "ken-burns opacity-100" : "opacity-0"
+              }`}
+            />
+          ))}
 
-        {/* Scrim: these studio frames are shot on a pale backdrop, so the white
-            nav and dashes need shading at the top and bottom edges to read. */}
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/65 via-black/15 to-black/60"
-        />
+          {/* Scrim: these studio frames are shot on a pale backdrop, so the
+              white nav and dashes need shading at the top and bottom edges. */}
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/65 via-black/15 to-black/60"
+          />
+
+          {/* Slide dashes, with a tappable area around each hairline. They ride
+              above the card where it overlaps the foot of the photo. */}
+          <div className="absolute bottom-12 left-1/2 z-10 flex -translate-x-1/2 sm:bottom-[72px] lg:bottom-2">
+            {heroSlides.map((_, i) => (
+              <button
+                key={i}
+                aria-label={`Slide ${i + 1}`}
+                onClick={() => setSlide(i)}
+                className="px-1.5 py-3.5"
+              >
+                <span
+                  className={`block h-[3px] w-6 transition-colors ${
+                    i === slide ? "bg-white" : "bg-white/40"
+                  }`}
+                />
+              </button>
+            ))}
+          </div>
+        </div>
 
         {/* Overlay header */}
         <div className="absolute inset-x-0 top-0 z-20 flex items-center justify-between px-4 py-3 text-white sm:px-6 sm:py-4 lg:px-10">
@@ -172,10 +197,10 @@ export default function LandingPage() {
           </div>
         </div>
 
-        {/* Message card */}
+        {/* Message card: under the photo on a phone, over it from small up */}
         <Reveal
           variant="left"
-          className="absolute bottom-[8%] left-0 z-10 w-[76%] max-w-[420px] bg-[#efe9dd] p-4 sm:left-6 sm:w-[88%] sm:p-8 lg:left-0"
+          className="relative z-10 -mt-10 ml-4 max-w-[420px] bg-[#efe9dd] p-4 sm:-mt-14 sm:ml-6 sm:p-6 lg:absolute lg:bottom-[8%] lg:left-0 lg:ml-0 lg:mt-0 lg:w-[88%] lg:p-8"
         >
           <h1 className="text-[20px] font-bold leading-[1.15] sm:text-[32px]">
             Built for the ones
@@ -194,19 +219,6 @@ export default function LandingPage() {
             <LongArrowIcon className="h-2.5 w-6 sm:h-3 sm:w-8" />
           </Link>
         </Reveal>
-
-        {/* Slide dashes, with a tappable area around each hairline */}
-        <div className="absolute bottom-2 left-1/2 z-10 flex -translate-x-1/2">
-          {heroSlides.map((_, i) => (
-            <button key={i} aria-label={`Slide ${i + 1}`} onClick={() => setSlide(i)} className="px-1.5 py-3.5">
-              <span
-                className={`block h-[3px] w-6 transition-colors ${
-                  i === slide ? "bg-white" : "bg-white/40"
-                }`}
-              />
-            </button>
-          ))}
-        </div>
       </section>
 
       {/* ── THE COLLECTION: statement on the left, the pieces on the right ── */}
