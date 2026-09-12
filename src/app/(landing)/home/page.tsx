@@ -61,26 +61,10 @@ const exploreCards = [
   },
 ];
 
-/**
- * The community wall: a piece per card, shown on the people wearing it. Laid
- * out as a masonry so the frames keep their own shapes. Each entry carries the
- * photo's real size so the column can reserve the right height before it loads.
- */
-const communityPosts = [
-  { src: "/images/lifestyle/worn-freedom-orange.jpg", w: 1024, h: 1536, label: "FREEDOM", href: "/products/freedom-tee", alt: "Freedom tee worn against an orange wall" },
-  { src: "/images/lifestyle/worn-ghana-crew.jpg", w: 1024, h: 1536, label: "GHANA MUST GO", href: "/products/ghana-must-go-tee", alt: "The crew in Ghana Must Go tees and Exclusive caps" },
-  { src: "/images/lifestyle/survivors-group.webp", w: 654, h: 737, label: "SURVIVORS", href: "/products/survivors-tee", alt: "Survivors tees on the crew" },
-  { src: "/images/products/trucker-cap-navy-model.webp", w: 545, h: 818, label: "GRIND CAP", href: "/products/grind-trucker-cap", alt: "Grind cap in sea blue" },
-  { src: "/images/lifestyle/worn-freedom-cap.jpg", w: 1024, h: 1536, label: "EXCLUSIVE CAPS", href: "/products/exclusive-cap", alt: "Cream Exclusive cap worn with the Freedom tee" },
-  { src: "/images/lifestyle/studio-rack.jpg", w: 2048, h: 1394, label: "KEEP MOVING", href: "/products/keep-moving-tee", alt: "Going through the rail" },
-  { src: "/images/products/beanie-black-model.webp", w: 905, h: 818, label: "INFINITI BENNIE", href: "/products/infiniti-bennie", alt: "Infiniti bennie in black" },
-  { src: "/images/lifestyle/three-girls-tees.webp", w: 654, h: 737, label: "SURVIVORS", href: "/products/survivors-tee", alt: "Survivors tees in the studio" },
-  { src: "/images/products/trucker-cap-brown-model.webp", w: 545, h: 818, label: "GRIND CAP", href: "/products/grind-trucker-cap", alt: "Grind cap in brown and navy" },
-  { src: "/images/lifestyle/van-selfie.webp", w: 612, h: 818, label: "INFINITI BENNIE", href: "/products/infiniti-bennie", alt: "Bennies on the road" },
-  { src: "/images/products/ghana-hand-tee.webp", w: 546, h: 818, label: "FREEDOM", href: "/products/freedom-tee", alt: "Freedom tee on the street" },
-  { src: "/images/products/trucker-cap-green-model.webp", w: 545, h: 818, label: "GRIND CAP", href: "/products/grind-trucker-cap", alt: "Grind cap in green" },
-  { src: "/images/lifestyle/girl-black-tee-cap.webp", w: 545, h: 818, label: "SURVIVORS", href: "/products/survivors-tee", alt: "Black tee and cap" },
-  { src: "/images/lifestyle/ns-group-basketball.webp", w: 460, h: 818, label: "THE CREW", href: "/shop", alt: "The crew on the court" },
+const communityPhotos = [
+  { src: "/images/collab/joeyb-poster.png", alt: "Joey B in the nvrsëynvr beanie" },
+  { src: "/images/lifestyle/ghana-flag-man.webp", alt: "Raising the Ghana flag over Accra" },
+  { src: "/images/lifestyle/van-selfie.webp", alt: "The community in nvrsëynvr beanies" },
 ];
 
 function BandSequence() {
@@ -388,74 +372,59 @@ export default function LandingPage() {
               nvrsëynvr
             </span>
           </Reveal>
-          {/* A masonry wall: every piece on the people wearing it. Columns let
-              each frame keep its own height instead of being cropped square. */}
-          <Reveal
-            className="mt-6 columns-2 gap-3 sm:mt-10 sm:columns-3 sm:gap-4 lg:columns-4 lg:gap-5"
-            data-testid="community-wall"
-          >
-            {communityPosts.map((post) => (
-              <Link
-                key={post.src}
-                href={post.href}
-                data-testid="community-card"
-                className="group mb-3 block break-inside-avoid sm:mb-4 lg:mb-5"
-              >
-                <div className="relative overflow-hidden bg-card">
-                  <Image
-                    src={post.src}
-                    alt={post.alt}
-                    width={post.w}
-                    height={post.h}
-                    sizes="(max-width: 640px) 46vw, (max-width: 1024px) 31vw, 23vw"
-                    className="h-auto w-full transition-transform duration-[900ms] ease-out group-hover:scale-[1.04]"
-                  />
-                  <span
-                    aria-hidden="true"
-                    className="pointer-events-none absolute inset-0 bg-black/0 transition-colors duration-300 group-hover:bg-black/20"
-                  />
-                  <span className="absolute bottom-2 left-2 translate-y-1 bg-white px-2.5 py-1 text-[10px] font-bold tracking-widest opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100">
-                    SHOP
-                  </span>
-                </div>
-                <p className="mt-1.5 text-[10px] font-bold tracking-[0.08em] sm:text-[11px]">
-                  {post.label}
-                </p>
-              </Link>
+          <Reveal group className="mt-6 grid grid-cols-3 gap-3 sm:mt-10 sm:gap-6">
+            {communityPhotos.map((photo) => (
+              <div key={photo.src} className="group relative aspect-[645/794] overflow-hidden">
+                <Image
+                  src={photo.src}
+                  alt={photo.alt}
+                  fill
+                  sizes="33vw"
+                  className="object-cover transition-transform duration-[900ms] ease-out group-hover:scale-105"
+                />
+              </div>
             ))}
           </Reveal>
         </div>
       </section>
 
       {/* ── Project-1957-Freedom editorial ── */}
-      <section className="relative min-h-[52vh] overflow-hidden sm:min-h-[80vh] lg:min-h-screen">
-        <Image
-          src="/images/lifestyle/editorial-freedom-couple.jpg"
-          alt="The Freedom tee against the marble, Project 1957"
-          fill
-          sizes="100vw"
-          className="ken-burns object-cover object-[50%_30%] grayscale"
-        />
-        <span className="absolute left-3 top-3 bg-white px-3 py-1.5 text-[10px] font-bold leading-none tracking-widest sm:left-6 sm:top-6 sm:px-5 sm:text-[11px]">
-          NEW
-        </span>
-        <Reveal
-          variant="left"
-          className="absolute bottom-10 left-3 text-left text-white sm:bottom-14 sm:left-6 lg:left-10"
+      {/* The frame is a portrait, so it is shown whole rather than cropped to a
+          letterbox band: full width on a phone, and sized off the viewport
+          height on a laptop so the entire picture is on screen at once. */}
+      <section className="relative bg-black py-0 lg:py-12">
+        <div
+          data-testid="editorial-frame"
+          className="relative mx-auto aspect-[2/3] w-full overflow-hidden lg:h-[80svh] lg:w-auto"
         >
-          <p className="text-[13px] tracking-[0.06em] [text-shadow:0_1px_10px_rgba(0,0,0,0.7)] sm:text-[20px] lg:text-[24px]">
-            PROJECT 1957
-          </p>
-          <p className="mt-0.5 text-[11px] tracking-[0.06em] [text-shadow:0_1px_10px_rgba(0,0,0,0.7)] sm:mt-1 sm:text-[18px] lg:text-[22px]">
-            NEW COLLECTION
-          </p>
-        </Reveal>
-        <Link
-          href="/collections/project-1957"
-          className="btn-swipe btn-swipe-dark absolute bottom-10 right-3 bg-white px-3 py-2.5 text-[10px] font-bold leading-none tracking-widest sm:bottom-14 sm:right-6 sm:px-5 sm:py-2.5 sm:text-[11px] lg:right-10"
-        >
-          EXPLORE
-        </Link>
+          <Image
+            src="/images/lifestyle/editorial-freedom-couple.jpg"
+            alt="The Freedom tee against the marble, Project 1957"
+            fill
+            sizes="(max-width: 1024px) 100vw, 60vh"
+            className="ken-burns object-cover grayscale"
+          />
+          <span className="absolute left-3 top-3 bg-white px-3 py-1.5 text-[10px] font-bold leading-none tracking-widest sm:left-6 sm:top-6 sm:px-5 sm:text-[11px]">
+            NEW
+          </span>
+          <Reveal
+            variant="left"
+            className="absolute bottom-10 left-3 text-left text-white sm:bottom-14 sm:left-6"
+          >
+            <p className="text-[13px] tracking-[0.06em] [text-shadow:0_1px_10px_rgba(0,0,0,0.7)] sm:text-[20px] lg:text-[24px]">
+              PROJECT 1957
+            </p>
+            <p className="mt-0.5 text-[11px] tracking-[0.06em] [text-shadow:0_1px_10px_rgba(0,0,0,0.7)] sm:mt-1 sm:text-[18px] lg:text-[22px]">
+              NEW COLLECTION
+            </p>
+          </Reveal>
+          <Link
+            href="/collections/project-1957"
+            className="btn-swipe btn-swipe-dark absolute bottom-10 right-3 bg-white px-3 py-2.5 text-[10px] font-bold leading-none tracking-widest sm:bottom-14 sm:right-6 sm:px-5 sm:py-2.5 sm:text-[11px]"
+          >
+            EXPLORE
+          </Link>
+        </div>
       </section>
     </>
   );
