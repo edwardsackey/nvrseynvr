@@ -61,10 +61,26 @@ const exploreCards = [
   },
 ];
 
-const communityPhotos = [
-  { src: "/images/collab/joeyb-poster.png", alt: "Joey B in the nvrsëynvr beanie" },
-  { src: "/images/lifestyle/ghana-flag-man.webp", alt: "Raising the Ghana flag over Accra" },
-  { src: "/images/lifestyle/van-selfie.webp", alt: "The community in nvrsëynvr beanies" },
+/**
+ * The community wall: a piece per card, shown on the people wearing it. Laid
+ * out as a masonry so the frames keep their own shapes. Each entry carries the
+ * photo's real size so the column can reserve the right height before it loads.
+ */
+const communityPosts = [
+  { src: "/images/lifestyle/worn-freedom-orange.jpg", w: 1024, h: 1536, label: "FREEDOM", href: "/products/freedom-tee", alt: "Freedom tee worn against an orange wall" },
+  { src: "/images/lifestyle/worn-ghana-crew.jpg", w: 1024, h: 1536, label: "GHANA MUST GO", href: "/products/ghana-must-go-tee", alt: "The crew in Ghana Must Go tees and Exclusive caps" },
+  { src: "/images/lifestyle/survivors-group.webp", w: 654, h: 737, label: "SURVIVORS", href: "/products/survivors-tee", alt: "Survivors tees on the crew" },
+  { src: "/images/products/trucker-cap-navy-model.webp", w: 545, h: 818, label: "GRIND CAP", href: "/products/grind-trucker-cap", alt: "Grind cap in sea blue" },
+  { src: "/images/lifestyle/worn-freedom-cap.jpg", w: 1024, h: 1536, label: "EXCLUSIVE CAPS", href: "/products/exclusive-cap", alt: "Cream Exclusive cap worn with the Freedom tee" },
+  { src: "/images/lifestyle/studio-rack.jpg", w: 2048, h: 1394, label: "KEEP MOVING", href: "/products/keep-moving-tee", alt: "Going through the rail" },
+  { src: "/images/products/beanie-black-model.webp", w: 905, h: 818, label: "INFINITI BENNIE", href: "/products/infiniti-bennie", alt: "Infiniti bennie in black" },
+  { src: "/images/lifestyle/three-girls-tees.webp", w: 654, h: 737, label: "SURVIVORS", href: "/products/survivors-tee", alt: "Survivors tees in the studio" },
+  { src: "/images/products/trucker-cap-brown-model.webp", w: 545, h: 818, label: "GRIND CAP", href: "/products/grind-trucker-cap", alt: "Grind cap in brown and navy" },
+  { src: "/images/lifestyle/van-selfie.webp", w: 612, h: 818, label: "INFINITI BENNIE", href: "/products/infiniti-bennie", alt: "Bennies on the road" },
+  { src: "/images/products/ghana-hand-tee.webp", w: 546, h: 818, label: "FREEDOM", href: "/products/freedom-tee", alt: "Freedom tee on the street" },
+  { src: "/images/products/trucker-cap-green-model.webp", w: 545, h: 818, label: "GRIND CAP", href: "/products/grind-trucker-cap", alt: "Grind cap in green" },
+  { src: "/images/lifestyle/girl-black-tee-cap.webp", w: 545, h: 818, label: "SURVIVORS", href: "/products/survivors-tee", alt: "Black tee and cap" },
+  { src: "/images/lifestyle/ns-group-basketball.webp", w: 460, h: 818, label: "THE CREW", href: "/shop", alt: "The crew on the court" },
 ];
 
 function BandSequence() {
@@ -117,11 +133,11 @@ export default function LandingPage() {
   return (
     <>
       {/* ── Hero with overlay nav ──
-          The photography is landscape. On a phone it keeps that shape at the
-          top of the page with the message card beneath it, rather than being
-          blown up to fill a tall portrait frame. From small screens up it goes
-          back to a full bleed hero with the card laid over it. */}
-      <section className="relative overflow-hidden bg-black pb-8 lg:min-h-screen lg:pb-0">
+          The photography is landscape, so below laptop width the frame keeps
+          that shape rather than being blown up to fill a tall portrait screen.
+          The message card lies over its bottom left corner at every size, just
+          scaled to suit. */}
+      <section className="relative overflow-hidden bg-black lg:min-h-screen">
         <div className="relative aspect-[2048/1394] w-full lg:absolute lg:inset-0 lg:aspect-auto">
           {heroSlides.map((frame, i) => (
             <Image
@@ -144,9 +160,9 @@ export default function LandingPage() {
             className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/65 via-black/15 to-black/60"
           />
 
-          {/* Slide dashes, with a tappable area around each hairline. They ride
-              above the card where it overlaps the foot of the photo. */}
-          <div className="absolute bottom-12 left-1/2 z-10 flex -translate-x-1/2 sm:bottom-[72px] lg:bottom-2">
+          {/* Slide dashes, with a tappable area around each hairline, kept to
+              the right of the card that sits in the opposite corner. */}
+          <div className="absolute bottom-0 right-1 z-10 flex lg:bottom-2 lg:left-1/2 lg:right-auto lg:-translate-x-1/2">
             {heroSlides.map((_, i) => (
               <button
                 key={i}
@@ -197,26 +213,26 @@ export default function LandingPage() {
           </div>
         </div>
 
-        {/* Message card: under the photo on a phone, over it from small up */}
+        {/* Message card: laid over the foot of the frame at every size */}
         <Reveal
           variant="left"
-          className="relative z-10 -mt-10 ml-4 max-w-[420px] bg-[#efe9dd] p-4 sm:-mt-14 sm:ml-6 sm:p-6 lg:absolute lg:bottom-[8%] lg:left-0 lg:ml-0 lg:mt-0 lg:w-[88%] lg:p-8"
+          className="absolute bottom-0 left-0 z-10 w-[63%] max-w-[300px] bg-[#efe9dd] p-3 sm:bottom-[6%] sm:w-[56%] sm:p-5 lg:bottom-[8%] lg:w-[88%] lg:max-w-[420px] lg:p-8"
         >
-          <h1 className="text-[20px] font-bold leading-[1.15] sm:text-[32px]">
+          <h1 className="text-[14px] font-bold leading-[1.15] sm:text-[20px] lg:text-[32px]">
             Built for the ones
             <br />
             who <em className="font-normal italic">never gave up</em>
           </h1>
-          <p className="mt-2 max-w-[280px] text-[10px] leading-snug text-black/80 sm:mt-3 sm:text-[12px]">
+          <p className="mt-1.5 max-w-[280px] text-[10px] leading-snug text-black/80 sm:mt-2 sm:text-[10px] lg:mt-3 lg:text-[12px]">
             Caps, beanies and tees —made slowly, in small numbers for people
             who&nbsp; keep moving.
           </p>
           <Link
             href="/shop"
-            className="btn-swipe btn-swipe-dark mt-3 inline-flex items-center gap-2 border border-black px-3.5 py-2.5 text-[10px] font-bold leading-none tracking-widest sm:mt-5 sm:gap-3 sm:px-4 sm:py-3 sm:text-[11px]"
+            className="btn-swipe btn-swipe-dark mt-2.5 inline-flex items-center gap-1.5 border border-black px-2.5 py-2.5 text-[10px] font-bold leading-none tracking-widest sm:mt-3 sm:gap-2 sm:px-3 sm:text-[10px] lg:mt-5 lg:gap-3 lg:px-4 lg:py-3 lg:text-[11px]"
           >
             SHOP THE DROP
-            <LongArrowIcon className="h-2.5 w-6 sm:h-3 sm:w-8" />
+            <LongArrowIcon className="h-2.5 w-5 lg:h-3 lg:w-8" />
           </Link>
         </Reveal>
       </section>
@@ -242,10 +258,10 @@ export default function LandingPage() {
             </p>
             <Link
               href="/collections"
-              className="btn-swipe btn-swipe-dark mt-8 inline-flex items-center gap-3 border border-black px-6 py-3 text-[11px] font-bold tracking-[0.18em]"
+              className="btn-swipe btn-swipe-dark mt-6 inline-flex items-center gap-1.5 border border-black px-3 py-2.5 text-[10px] font-bold tracking-[0.12em] sm:mt-8 sm:gap-3 sm:px-6 sm:py-3 sm:text-[11px] sm:tracking-[0.18em]"
             >
               VIEW COLLECTION
-              <LongArrowIcon className="h-3 w-7" />
+              <LongArrowIcon className="h-2.5 w-5 sm:h-3 sm:w-7" />
             </Link>
           </Reveal>
 
@@ -347,7 +363,7 @@ export default function LandingPage() {
           </p>
           <Link
             href="/shop"
-            className="btn-swipe btn-swipe-dark mt-3 inline-block whitespace-nowrap bg-white px-3.5 py-2.5 text-[10px] font-bold leading-none tracking-widest sm:hidden"
+            className="btn-swipe btn-swipe-dark mt-2.5 inline-block whitespace-nowrap bg-white px-3 py-2.5 text-[10px] font-bold leading-none tracking-widest sm:hidden"
           >
             EXPLORE NOW
           </Link>
@@ -372,17 +388,40 @@ export default function LandingPage() {
               nvrsëynvr
             </span>
           </Reveal>
-          <Reveal group className="mt-6 grid grid-cols-3 gap-3 sm:mt-10 sm:gap-6">
-            {communityPhotos.map((photo) => (
-              <div key={photo.src} className="group relative aspect-[645/794] overflow-hidden">
-                <Image
-                  src={photo.src}
-                  alt={photo.alt}
-                  fill
-                  sizes="33vw"
-                  className="object-cover transition-transform duration-[900ms] ease-out group-hover:scale-105"
-                />
-              </div>
+          {/* A masonry wall: every piece on the people wearing it. Columns let
+              each frame keep its own height instead of being cropped square. */}
+          <Reveal
+            className="mt-6 columns-2 gap-3 sm:mt-10 sm:columns-3 sm:gap-4 lg:columns-4 lg:gap-5"
+            data-testid="community-wall"
+          >
+            {communityPosts.map((post) => (
+              <Link
+                key={post.src}
+                href={post.href}
+                data-testid="community-card"
+                className="group mb-3 block break-inside-avoid sm:mb-4 lg:mb-5"
+              >
+                <div className="relative overflow-hidden bg-card">
+                  <Image
+                    src={post.src}
+                    alt={post.alt}
+                    width={post.w}
+                    height={post.h}
+                    sizes="(max-width: 640px) 46vw, (max-width: 1024px) 31vw, 23vw"
+                    className="h-auto w-full transition-transform duration-[900ms] ease-out group-hover:scale-[1.04]"
+                  />
+                  <span
+                    aria-hidden="true"
+                    className="pointer-events-none absolute inset-0 bg-black/0 transition-colors duration-300 group-hover:bg-black/20"
+                  />
+                  <span className="absolute bottom-2 left-2 translate-y-1 bg-white px-2.5 py-1 text-[10px] font-bold tracking-widest opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100">
+                    SHOP
+                  </span>
+                </div>
+                <p className="mt-1.5 text-[10px] font-bold tracking-[0.08em] sm:text-[11px]">
+                  {post.label}
+                </p>
+              </Link>
             ))}
           </Reveal>
         </div>
@@ -391,11 +430,11 @@ export default function LandingPage() {
       {/* ── Project-1957-Freedom editorial ── */}
       <section className="relative min-h-[52vh] overflow-hidden sm:min-h-[80vh] lg:min-h-screen">
         <Image
-          src="/images/lifestyle/freedom-editorial.webp"
-          alt="Project-1957-Freedom editorial in Accra"
+          src="/images/lifestyle/editorial-freedom-couple.jpg"
+          alt="The Freedom tee against the marble, Project 1957"
           fill
           sizes="100vw"
-          className="ken-burns object-cover grayscale"
+          className="ken-burns object-cover object-[50%_30%] grayscale"
         />
         <span className="absolute left-3 top-3 bg-white px-3 py-1.5 text-[10px] font-bold leading-none tracking-widest sm:left-6 sm:top-6 sm:px-5 sm:text-[11px]">
           NEW
@@ -405,7 +444,7 @@ export default function LandingPage() {
           className="absolute bottom-10 left-3 text-left text-white sm:bottom-14 sm:left-6 lg:left-10"
         >
           <p className="text-[13px] tracking-[0.06em] [text-shadow:0_1px_10px_rgba(0,0,0,0.7)] sm:text-[20px] lg:text-[24px]">
-            PROJECT-1957-FREEDOM
+            PROJECT 1957
           </p>
           <p className="mt-0.5 text-[11px] tracking-[0.06em] [text-shadow:0_1px_10px_rgba(0,0,0,0.7)] sm:mt-1 sm:text-[18px] lg:text-[22px]">
             NEW COLLECTION
@@ -413,15 +452,10 @@ export default function LandingPage() {
         </Reveal>
         <Link
           href="/collections/project-1957"
-          className="btn-swipe btn-swipe-dark absolute bottom-10 right-3 bg-white px-3.5 py-2.5 text-[10px] font-bold leading-none tracking-widest sm:bottom-14 sm:right-6 sm:px-5 sm:text-[11px] lg:right-10"
+          className="btn-swipe btn-swipe-dark absolute bottom-10 right-3 bg-white px-3 py-2.5 text-[10px] font-bold leading-none tracking-widest sm:bottom-14 sm:right-6 sm:px-5 sm:py-2.5 sm:text-[11px] lg:right-10"
         >
           EXPLORE
         </Link>
-        <div className="absolute bottom-5 left-1/2 flex -translate-x-1/2 gap-2">
-          {[0, 1, 2].map((i) => (
-            <span key={i} className={`h-[3px] w-6 ${i === 0 ? "bg-white" : "bg-white/40"}`} />
-          ))}
-        </div>
       </section>
     </>
   );

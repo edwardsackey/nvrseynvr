@@ -243,7 +243,7 @@ export function VideoHero() {
           href={STORE_HOME}
           data-testid="video-shop-now"
           tabIndex={showCta ? 0 : -1}
-          className="btn-swipe btn-swipe-light mt-8 inline-flex items-center gap-3 border border-white bg-black/25 px-10 py-4 text-[13px] font-bold tracking-[0.2em] backdrop-blur-sm sm:px-14"
+          className="btn-swipe btn-swipe-light mt-7 inline-flex items-center gap-2.5 border border-white bg-black/25 px-7 py-3 text-[11px] font-bold tracking-[0.2em] backdrop-blur-sm sm:mt-8 sm:gap-3 sm:px-12 sm:py-4 sm:text-[13px]"
         >
           SHOP NOW
           <LongArrowIcon className="h-3 w-8" />
@@ -272,7 +272,7 @@ export function VideoHero() {
       <Link
         href={STORE_HOME}
         data-testid="film-skip"
-        className="group absolute bottom-6 right-5 z-20 inline-flex items-center gap-2 border border-white/45 bg-black/30 px-5 py-2.5 text-[11px] font-bold tracking-[0.22em] backdrop-blur-sm transition-colors hover:border-white hover:bg-black/55 lg:bottom-8 lg:right-8"
+        className="group absolute bottom-5 right-4 z-20 inline-flex items-center gap-1.5 border border-white/45 bg-black/30 px-3.5 py-2 text-[10px] font-bold tracking-[0.22em] backdrop-blur-sm transition-colors hover:border-white hover:bg-black/55 sm:gap-2 sm:px-5 sm:py-2.5 sm:text-[11px] lg:bottom-8 lg:right-8"
       >
         SKIP
         <LongArrowIcon className="h-3 w-7 transition-transform duration-300 group-hover:translate-x-1" />
