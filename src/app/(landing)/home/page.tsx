@@ -389,49 +389,79 @@ export default function LandingPage() {
       </section>
 
       {/* ── Project-1957-Freedom editorial ── */}
-      {/* Full bleed. The frame takes the photo's own shape on a phone, so the
-          picture fills it exactly. A wide screen cannot hold a portrait at full
-          height without either cropping it or leaving ground bare, so the same
-          frame is blurred out behind it: the picture stays whole and the band
-          is filled to both edges. */}
+      {/* Full bleed, one screen, nothing cut off. The photo is a 2:3 portrait:
+          on a phone the frame takes that same shape, so the picture fills it
+          corner to corner. A wide screen cannot hold 2:3 at full height without
+          either cropping half the picture away or leaving ground bare, so the
+          picture runs floor to ceiling at its own shape against the right edge
+          and the collection lockup fills the rest of the band. */}
       <section className="relative bg-black">
         <div
           data-testid="editorial-frame"
-          className="relative aspect-[1024/1536] w-full overflow-hidden lg:aspect-auto lg:h-[88svh]"
+          className="relative aspect-[1024/1536] w-full overflow-hidden lg:flex lg:aspect-auto lg:h-[100svh] lg:items-stretch"
         >
-          <Image
-            src="/images/lifestyle/editorial-freedom-couple.jpg"
-            alt=""
-            aria-hidden="true"
-            fill
-            sizes="100vw"
-            className="hidden scale-110 object-cover blur-2xl brightness-[0.5] grayscale lg:block"
-          />
-          <Image
-            src="/images/lifestyle/editorial-freedom-couple.jpg"
-            alt="The Freedom tee against the marble, Project 1957"
-            fill
-            data-testid="editorial-photo"
-            sizes="100vw"
-            className="object-cover grayscale lg:object-contain"
-          />
-          <span className="absolute left-3 top-3 bg-white px-3 py-1.5 text-[10px] font-bold leading-none tracking-widest sm:left-6 sm:top-6 sm:px-5 sm:text-[11px]">
+          {/* The words: only on a wide screen, where there is room beside the photo */}
+          <div className="hidden min-w-0 flex-1 flex-col items-center justify-center px-10 xl:px-16 lg:flex">
+            {/* Capped and centred so a very wide screen does not leave the
+                words stranded at one edge of the band. */}
+            <Reveal variant="left" className="w-full max-w-[880px] text-white">
+              <span className="inline-block bg-white px-4 py-1.5 text-[11px] font-bold leading-none tracking-widest text-black">
+                NEW
+              </span>
+              {/* Sized off the viewport so the words carry the width of the band
+                  rather than leaving it bare beside the picture. */}
+              <p className="mt-8 whitespace-nowrap text-[clamp(52px,6.6vw,150px)] font-bold uppercase leading-[0.9] tracking-[-0.03em]">
+                Project 1957
+              </p>
+              <p className="mt-4 text-[clamp(15px,1.25vw,26px)] tracking-[0.18em] text-white/70">
+                NEW COLLECTION
+              </p>
+              <p className="mt-8 max-w-[46ch] text-[clamp(13px,1.05vw,19px)] leading-relaxed text-white/55">
+                Raised hands break the chain across the chest. Hand printed on heavyweight
+                fleece, made slowly in Accra and in small numbers.
+              </p>
+              <Link
+                href="/collections/project-1957"
+                className="btn-swipe btn-swipe-dark mt-10 inline-block bg-white px-10 py-4 text-[12px] font-bold leading-none tracking-widest text-black"
+              >
+                EXPLORE
+              </Link>
+            </Reveal>
+          </div>
+
+          {/* The picture: its own shape at full height, so none of it is lost */}
+          <div
+            data-testid="editorial-photo-pane"
+            className="absolute inset-0 lg:relative lg:inset-auto lg:aspect-[1024/1536] lg:h-full lg:w-auto lg:shrink-0"
+          >
+            <Image
+              src="/images/lifestyle/editorial-freedom-couple.jpg"
+              alt="The Freedom tee against the marble, Project 1957"
+              fill
+              data-testid="editorial-photo"
+              sizes="(min-width: 1024px) 50vw, 100vw"
+              className="object-cover grayscale"
+            />
+          </div>
+
+          {/* Narrow screens carry the same wording over the picture itself */}
+          <span className="absolute left-3 top-3 bg-white px-3 py-1.5 text-[10px] font-bold leading-none tracking-widest sm:left-6 sm:top-6 sm:px-5 sm:text-[11px] lg:hidden">
             NEW
           </span>
           <Reveal
             variant="left"
-            className="absolute bottom-10 left-3 text-left text-white sm:bottom-14 sm:left-6"
+            className="absolute bottom-10 left-3 text-left text-white sm:bottom-14 sm:left-6 lg:hidden"
           >
-            <p className="text-[13px] tracking-[0.06em] [text-shadow:0_1px_10px_rgba(0,0,0,0.7)] sm:text-[20px] lg:text-[24px]">
+            <p className="text-[13px] tracking-[0.06em] [text-shadow:0_1px_10px_rgba(0,0,0,0.7)] sm:text-[20px]">
               PROJECT 1957
             </p>
-            <p className="mt-0.5 text-[11px] tracking-[0.06em] [text-shadow:0_1px_10px_rgba(0,0,0,0.7)] sm:mt-1 sm:text-[18px] lg:text-[22px]">
+            <p className="mt-0.5 text-[11px] tracking-[0.06em] [text-shadow:0_1px_10px_rgba(0,0,0,0.7)] sm:mt-1 sm:text-[18px]">
               NEW COLLECTION
             </p>
           </Reveal>
           <Link
             href="/collections/project-1957"
-            className="btn-swipe btn-swipe-dark absolute bottom-10 right-3 bg-white px-3 py-2.5 text-[10px] font-bold leading-none tracking-widest sm:bottom-14 sm:right-6 sm:px-5 sm:py-2.5 sm:text-[11px]"
+            className="btn-swipe btn-swipe-dark absolute bottom-10 right-3 bg-white px-3 py-2.5 text-[10px] font-bold leading-none tracking-widest sm:bottom-14 sm:right-6 sm:px-5 sm:py-2.5 sm:text-[11px] lg:hidden"
           >
             EXPLORE
           </Link>
