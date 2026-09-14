@@ -14,12 +14,13 @@ const SHIPPING_KEY = "nvrseynvr-checkout-shipping";
 const ORDER_KEY = "nvrseynvr-last-order";
 
 const emptyShipping: ShippingInfo = {
-  fullName: "",
-  email: "",
+  firstName: "",
+  lastName: "",
   phone: "",
-  address: "",
-  city: "",
+  email: "",
   country: "",
+  city: "",
+  address: "",
   postalCode: "",
 };
 
@@ -65,11 +66,13 @@ export function CheckoutProvider({ children }: { children: React.ReactNode }) {
 
   const shippingComplete = useMemo(() => {
     const required: (keyof ShippingInfo)[] = [
-      "fullName",
+      "firstName",
+      "lastName",
       "phone",
-      "address",
-      "city",
+      "email",
       "country",
+      "city",
+      "address",
     ];
     return required.every((key) => shipping[key].trim().length > 0);
   }, [shipping]);

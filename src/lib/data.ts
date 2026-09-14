@@ -368,6 +368,16 @@ export function colorImages(product: Product, color: ProductColor): string[] {
   return all.filter((src, i) => all.indexOf(src) === i);
 }
 
+/**
+ * The shot to show beside a line in the cart, the bag or an order: the front of
+ * the colourway that was actually chosen, falling back to the piece's own shots
+ * for anything whose colour no longer exists.
+ */
+export function chosenImage(product: Product, colorName: string): string {
+  const colour = product.colors.find((c) => c.name === colorName);
+  return colour?.front ?? frontImage(product);
+}
+
 export function getProduct(id: string): Product | undefined {
   return products.find((p) => p.id === id);
 }
