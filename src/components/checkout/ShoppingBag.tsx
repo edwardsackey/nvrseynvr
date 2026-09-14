@@ -50,7 +50,7 @@ export function ShoppingBag({
             >
               <Link
                 href={`/products/${product.id}`}
-                className="relative block h-[86px] w-[68px] shrink-0 overflow-hidden bg-[#e8e7e3] sm:h-[100px] sm:w-[78px]"
+                className="relative block h-[86px] w-[68px] shrink-0 overflow-hidden bg-card sm:h-[100px] sm:w-[78px]"
               >
                 <Image src={src} alt={product.name} fill sizes="80px" className="object-cover" />
               </Link>

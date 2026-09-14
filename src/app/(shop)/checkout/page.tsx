@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { FormEvent, useEffect, useMemo, useState } from "react";
 import { AgreeCheckbox, CheckoutField } from "@/components/checkout/CheckoutField";
@@ -198,7 +197,7 @@ export default function CheckoutPage() {
   const blockLabel = "text-[12px] font-bold sm:text-[13px]";
 
   return (
-    <div className="bg-[#f3f2ef]">
+    <div className="bg-white">
       <div className="mx-auto w-full max-w-[1240px] px-5 pb-20 pt-8 sm:px-8 lg:px-12 lg:pt-12">
         <Reveal>
           <h1 className="text-[44px] font-bold uppercase leading-[0.9] tracking-[-0.02em] sm:text-[62px] lg:text-[76px]">
@@ -216,18 +215,7 @@ export default function CheckoutPage() {
           >
             {/* Information */}
             <Reveal>
-              <div className="flex flex-wrap items-baseline justify-between gap-2">
-                <h2 className={sectionTitle}>Information</h2>
-                <p className="text-[11px] text-black/55 sm:text-[12px]">
-                  Already have an account?{" "}
-                  <Link
-                    href="/onboarding"
-                    className="inline-block py-[7px] align-middle font-bold text-black underline underline-offset-2"
-                  >
-                    Log in
-                  </Link>
-                </p>
-              </div>
+              <h2 className={sectionTitle}>Information</h2>
 
               <p className={`mt-6 ${blockLabel}`}>Personal Information</p>
               <div className="mt-1 grid gap-x-8 sm:grid-cols-2">

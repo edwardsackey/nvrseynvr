@@ -49,7 +49,7 @@ export default function ConfirmationPage() {
       : PAYMENT_LABELS[lastOrder.paymentMethod];
 
   return (
-    <div className="bg-[#f3f2ef]">
+    <div className="bg-white">
       <div className="mx-auto w-full max-w-[1000px] px-5 pb-20 pt-10 sm:px-8">
         <Reveal variant="scale" className="flex justify-center">
           <CheckCircleIcon className="h-[62px] w-[62px]" />
@@ -64,7 +64,7 @@ export default function ConfirmationPage() {
           A confirmation has been sent to {lastOrder.email}
         </p>
 
-        <Reveal className="mt-10 flex items-center justify-center gap-5 bg-[#e8e7e3] px-6 py-7 sm:gap-8">
+        <Reveal className="mt-10 flex items-center justify-center gap-5 bg-card px-6 py-7 sm:gap-8">
           <TruckIcon className="h-10 w-10 shrink-0 sm:h-[46px] sm:w-[46px]" />
           <div>
             <p className="text-[14px] font-bold sm:text-[16px]">{speed.label}</p>
@@ -88,7 +88,7 @@ export default function ConfirmationPage() {
                     key={`${item.productId}-${item.selectedSize}-${item.selectedColor}`}
                     className="flex gap-4"
                   >
-                    <div className="relative h-[100px] w-[78px] shrink-0 overflow-hidden bg-[#e8e7e3]">
+                    <div className="relative h-[100px] w-[78px] shrink-0 overflow-hidden bg-card">
                       <Image src={src} alt={product.name} fill sizes="80px" className="object-cover" />
                     </div>
                     <div className="min-w-0 flex-1">
