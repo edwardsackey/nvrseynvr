@@ -389,20 +389,31 @@ export default function LandingPage() {
       </section>
 
       {/* ── Project-1957-Freedom editorial ── */}
-      {/* The frame is a portrait, so it is shown whole rather than cropped to a
-          letterbox band: full width on a phone, and sized off the viewport
-          height on a laptop so the entire picture is on screen at once. */}
-      <section className="relative bg-black py-0 lg:py-12">
+      {/* Full bleed. The frame takes the photo's own shape on a phone, so the
+          picture fills it exactly. A wide screen cannot hold a portrait at full
+          height without either cropping it or leaving ground bare, so the same
+          frame is blurred out behind it: the picture stays whole and the band
+          is filled to both edges. */}
+      <section className="relative bg-black">
         <div
           data-testid="editorial-frame"
-          className="relative mx-auto aspect-[2/3] w-full overflow-hidden lg:h-[80svh] lg:w-auto"
+          className="relative aspect-[1024/1536] w-full overflow-hidden lg:aspect-auto lg:h-[88svh]"
         >
+          <Image
+            src="/images/lifestyle/editorial-freedom-couple.jpg"
+            alt=""
+            aria-hidden="true"
+            fill
+            sizes="100vw"
+            className="hidden scale-110 object-cover blur-2xl brightness-[0.5] grayscale lg:block"
+          />
           <Image
             src="/images/lifestyle/editorial-freedom-couple.jpg"
             alt="The Freedom tee against the marble, Project 1957"
             fill
-            sizes="(max-width: 1024px) 100vw, 60vh"
-            className="ken-burns object-cover grayscale"
+            data-testid="editorial-photo"
+            sizes="100vw"
+            className="object-cover grayscale lg:object-contain"
           />
           <span className="absolute left-3 top-3 bg-white px-3 py-1.5 text-[10px] font-bold leading-none tracking-widest sm:left-6 sm:top-6 sm:px-5 sm:text-[11px]">
             NEW
